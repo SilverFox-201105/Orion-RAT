@@ -84,3 +84,6 @@ _src_ref/
 
 # WorkBuddy 内部数据（含 AI 工作日志/记忆，禁止入库）
 .workbuddy/
+
+# 按用户要求：Docs 文档不随源码发布
+Docs/
