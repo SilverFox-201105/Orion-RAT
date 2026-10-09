@@ -1,0 +1,251 @@
+﻿<UserControl x:Class="Orion.Server.Controls.Wpf.StatsView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             mc:Ignorable="d"
+             d:DesignWidth="900"
+             d:DesignHeight="700">
+    <UserControl.Resources>
+        <BooleanToVisibilityConverter x:Key="BoolToVisibilityConverter" />
+
+        <SolidColorBrush x:Key="StatsBackgroundBrush" Color="#FF000000" />
+        <SolidColorBrush x:Key="CardBackgroundBrush" Color="#FF111111" />
+        <SolidColorBrush x:Key="CardBorderBrush" Color="#FF222222" />
+        <SolidColorBrush x:Key="CardForegroundBrush" Color="#FFE5E7EB" />
+        <SolidColorBrush x:Key="SectionHeaderBrush" Color="#FFF1F5F9" />
+        <SolidColorBrush x:Key="MutedTextBrush" Color="#FF8B92A5" />
+        <SolidColorBrush x:Key="AccentBrush" Color="#FF60A5FA" />
+        <SolidColorBrush x:Key="PositiveAccentBrush" Color="#FF34D399" />
+        <SolidColorBrush x:Key="NegativeAccentBrush" Color="#FFF87171" />
+        <SolidColorBrush x:Key="ChartBackgroundBrush" Color="#FF111111" />
+        <SolidColorBrush x:Key="ChartBorderBrush" Color="#FF222222" />
+        <SolidColorBrush x:Key="ScrollBarTrackBrush" Color="#FF0A0A0A" />
+        <SolidColorBrush x:Key="ScrollBarThumbBrush" Color="#FF333333" />
+        <SolidColorBrush x:Key="ScrollBarThumbHoverBrush" Color="#FF4A4A4A" />
+        <SolidColorBrush x:Key="ScrollBarThumbPressedBrush" Color="#FF666666" />
+        <Color x:Key="ShadowColor">#40000000</Color>
+
+        <Style x:Key="SlimScrollBarThumbStyle" TargetType="Thumb">
+            <Setter Property="Background" Value="{DynamicResource ScrollBarThumbBrush}" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Thumb">
+                        <Border Background="{TemplateBinding Background}" CornerRadius="4" />
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="{DynamicResource ScrollBarThumbHoverBrush}" />
+                </Trigger>
+                <Trigger Property="IsDragging" Value="True">
+                    <Setter Property="Background" Value="{DynamicResource ScrollBarThumbPressedBrush}" />
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+        <ControlTemplate x:Key="SlimVerticalScrollBarTemplate" TargetType="ScrollBar">
+            <Grid Background="{TemplateBinding Background}" Width="{TemplateBinding Width}">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="0" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="0" />
+                </Grid.RowDefinitions>
+                <Track x:Name="PART_Track" Grid.Row="1" IsDirectionReversed="True" Orientation="Vertical"
+                       Maximum="{TemplateBinding Maximum}" Minimum="{TemplateBinding Minimum}"
+                       Value="{TemplateBinding Value}" ViewportSize="{TemplateBinding ViewportSize}">
+                    <Track.Thumb>
+                        <Thumb Style="{StaticResource SlimScrollBarThumbStyle}" />
+                    </Track.Thumb>
+                </Track>
+            </Grid>
+        </ControlTemplate>
+        <Style x:Key="SlimScrollBarStyle" TargetType="ScrollBar">
+            <Setter Property="Background" Value="{DynamicResource ScrollBarTrackBrush}" />
+            <Setter Property="Width" Value="8" />
+            <Setter Property="Template" Value="{StaticResource SlimVerticalScrollBarTemplate}" />
+        </Style>
+    </UserControl.Resources>
+
+    <Grid x:Name="LayoutRoot" Background="{StaticResource StatsBackgroundBrush}">
+
+        <!-- Main content -->
+        <ScrollViewer VerticalScrollBarVisibility="Auto"
+                      HorizontalScrollBarVisibility="Disabled"
+                      Background="Transparent"
+                      Visibility="{Binding IsContentVisible, Converter={StaticResource BoolToVisibilityConverter}}">
+            <ScrollViewer.Resources>
+                <Style TargetType="ScrollBar" BasedOn="{StaticResource SlimScrollBarStyle}" />
+            </ScrollViewer.Resources>
+            <StackPanel Margin="28,24,28,24">
+
+                <!-- Section header -->
+                <TextBlock Text="概览" Margin="0,0,0,20"
+                           FontSize="22" FontWeight="Bold"
+                           Foreground="{StaticResource SectionHeaderBrush}" />
+
+                <!-- Stat cards - 4 columns -->
+                <UniformGrid Columns="4" Margin="0,0,0,28">
+                    <Border Margin="0,0,10,0" CornerRadius="10"
+                            Background="{StaticResource CardBackgroundBrush}"
+                            BorderBrush="{StaticResource CardBorderBrush}" BorderThickness="1">
+                        <Border.Effect>
+                            <DropShadowEffect ShadowDepth="2" BlurRadius="12" Opacity="0.08" Direction="270" Color="{StaticResource ShadowColor}" />
+                        </Border.Effect>
+                        <StackPanel Margin="16,16,16,16">
+                            <TextBlock Text="{Binding StatCards[0].Title}" FontSize="12" FontWeight="Medium"
+                                       Foreground="{StaticResource MutedTextBrush}" />
+                            <TextBlock Text="{Binding StatCards[0].Value}" FontSize="32" FontWeight="Bold"
+                                       Margin="0,6,0,4" Foreground="{StaticResource CardForegroundBrush}" />
+                            <TextBlock Text="{Binding StatCards[0].Subtitle}" FontSize="11"
+                                       Foreground="{StaticResource MutedTextBrush}" Opacity="0.8" />
+                        </StackPanel>
+                    </Border>
+
+                    <Border Margin="6,0,6,0" CornerRadius="10"
+                            Background="{StaticResource CardBackgroundBrush}"
+                            BorderBrush="{StaticResource CardBorderBrush}" BorderThickness="1">
+                        <Border.Effect>
+                            <DropShadowEffect ShadowDepth="2" BlurRadius="12" Opacity="0.08" Direction="270" Color="{StaticResource ShadowColor}" />
+                        </Border.Effect>
+                        <StackPanel Margin="16,16,16,16">
+                            <TextBlock Text="{Binding StatCards[1].Title}" FontSize="12" FontWeight="Medium"
+                                       Foreground="{StaticResource MutedTextBrush}" />
+                            <TextBlock Text="{Binding StatCards[1].Value}" FontSize="32" FontWeight="Bold"
+                                       Margin="0,6,0,4" Foreground="{StaticResource CardForegroundBrush}" />
+                            <TextBlock Text="{Binding StatCards[1].Subtitle}" FontSize="11"
+                                       Foreground="{StaticResource MutedTextBrush}" Opacity="0.8" />
+                        </StackPanel>
+                    </Border>
+
+                    <Border Margin="6,0,6,0" CornerRadius="10"
+                            Background="{StaticResource CardBackgroundBrush}"
+                            BorderBrush="{StaticResource CardBorderBrush}" BorderThickness="1">
+                        <Border.Effect>
+                            <DropShadowEffect ShadowDepth="2" BlurRadius="12" Opacity="0.08" Direction="270" Color="{StaticResource ShadowColor}" />
+                        </Border.Effect>
+                        <StackPanel Margin="16,16,16,16">
+                            <TextBlock Text="{Binding StatCards[2].Title}" FontSize="12" FontWeight="Medium"
+                                       Foreground="{StaticResource MutedTextBrush}" />
+                            <TextBlock Text="{Binding StatCards[2].Value}" FontSize="32" FontWeight="Bold"
+                                       Margin="0,6,0,4" Foreground="{StaticResource CardForegroundBrush}" />
+                            <TextBlock Text="{Binding StatCards[2].Subtitle}" FontSize="11"
+                                       Foreground="{StaticResource MutedTextBrush}" Opacity="0.8" />
+                        </StackPanel>
+                    </Border>
+
+                    <Border Margin="10,0,0,0" CornerRadius="10"
+                            Background="{StaticResource CardBackgroundBrush}"
+                            BorderBrush="{StaticResource CardBorderBrush}" BorderThickness="1">
+                        <Border.Effect>
+                            <DropShadowEffect ShadowDepth="2" BlurRadius="12" Opacity="0.08" Direction="270" Color="{StaticResource ShadowColor}" />
+                        </Border.Effect>
+                        <StackPanel Margin="16,16,16,16">
+                            <TextBlock Text="{Binding StatCards[3].Title}" FontSize="12" FontWeight="Medium"
+                                       Foreground="{StaticResource MutedTextBrush}" />
+                            <TextBlock Text="{Binding StatCards[3].Value}" FontSize="32" FontWeight="Bold"
+                                       Margin="0,6,0,4" Foreground="{StaticResource CardForegroundBrush}" />
+                            <TextBlock Text="{Binding StatCards[3].Subtitle}" FontSize="11"
+                                       Foreground="{StaticResource MutedTextBrush}" Opacity="0.8" />
+                        </StackPanel>
+                    </Border>
+                </UniformGrid>
+
+                <!-- Charts row -->
+                <Grid Margin="0,0,0,28">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="3*" />
+                        <ColumnDefinition Width="2*" />
+                    </Grid.ColumnDefinitions>
+
+                    <!-- Bar chart card -->
+                    <Border Grid.Column="0" Margin="0,0,12,0" Padding="20" CornerRadius="10"
+                            Background="{StaticResource CardBackgroundBrush}"
+                            BorderBrush="{StaticResource CardBorderBrush}" BorderThickness="1">
+                        <Border.Effect>
+                            <DropShadowEffect ShadowDepth="2" BlurRadius="12" Opacity="0.08" Direction="270" Color="{StaticResource ShadowColor}" />
+                        </Border.Effect>
+                        <StackPanel>
+                            <TextBlock Text="每日新增客户端" FontSize="15" FontWeight="SemiBold"
+                                       Foreground="{StaticResource SectionHeaderBrush}" Margin="0,0,0,16" />
+                            <ContentControl x:Name="NewClientsChartHost" Height="260"
+                                            HorizontalContentAlignment="Stretch"
+                                            VerticalContentAlignment="Stretch" />
+                        </StackPanel>
+                    </Border>
+
+                    <!-- Pie charts stacked -->
+                    <StackPanel Grid.Column="1">
+                        <Border Padding="20" Margin="0,0,0,12" CornerRadius="10"
+                                Background="{StaticResource CardBackgroundBrush}"
+                                BorderBrush="{StaticResource CardBorderBrush}" BorderThickness="1">
+                            <Border.Effect>
+                                <DropShadowEffect ShadowDepth="2" BlurRadius="12" Opacity="0.08" Direction="270" Color="{StaticResource ShadowColor}" />
+                            </Border.Effect>
+                            <StackPanel>
+                                <TextBlock Text="按国家分布" FontSize="15" FontWeight="SemiBold"
+                                           Foreground="{StaticResource SectionHeaderBrush}" Margin="0,0,0,12" />
+                                <ContentControl x:Name="CountryChartHost" Height="180"
+                                                HorizontalContentAlignment="Stretch"
+                                                VerticalContentAlignment="Stretch" />
+                            </StackPanel>
+                        </Border>
+
+                        <Border Padding="20" CornerRadius="10"
+                                Background="{StaticResource CardBackgroundBrush}"
+                                BorderBrush="{StaticResource CardBorderBrush}" BorderThickness="1">
+                            <Border.Effect>
+                                <DropShadowEffect ShadowDepth="2" BlurRadius="12" Opacity="0.08" Direction="270" Color="{StaticResource ShadowColor}" />
+                            </Border.Effect>
+                            <StackPanel>
+                                <TextBlock Text="按操作系统分布" FontSize="15" FontWeight="SemiBold"
+                                           Foreground="{StaticResource SectionHeaderBrush}" Margin="0,0,0,12" />
+                                <ContentControl x:Name="OperatingSystemChartHost" Height="180"
+                                                HorizontalContentAlignment="Stretch"
+                                                VerticalContentAlignment="Stretch" />
+                            </StackPanel>
+                        </Border>
+                    </StackPanel>
+                </Grid>
+
+                <!-- Footer -->
+                <TextBlock Text="{Binding LastUpdated}" Margin="0,4,0,0" FontSize="12"
+                           Foreground="{StaticResource MutedTextBrush}" Opacity="0.6" />
+            </StackPanel>
+        </ScrollViewer>
+
+        <!-- Loading overlay -->
+        <Border Background="#CC1A1A2E"
+                Visibility="{Binding IsLoading, Converter={StaticResource BoolToVisibilityConverter}}">
+            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                <Border Width="48" Height="48" CornerRadius="24" Background="#333B82F6" Margin="0,0,0,16">
+                    <TextBlock Text="⟳" FontSize="24" Foreground="#FF3B82F6"
+                               HorizontalAlignment="Center" VerticalAlignment="Center" />
+                </Border>
+                <TextBlock Text="正在加载统计数据..." Foreground="#CCFFFFFF"
+                           FontSize="16" FontWeight="Medium" TextAlignment="Center" />
+            </StackPanel>
+        </Border>
+
+        <!-- Error overlay -->
+        <Border Background="#22EF4444"
+                Visibility="{Binding HasError, Converter={StaticResource BoolToVisibilityConverter}}">
+            <Border Background="{StaticResource CardBackgroundBrush}"
+                    BorderBrush="{StaticResource NegativeAccentBrush}" BorderThickness="1"
+                    CornerRadius="12" Padding="32"
+                    HorizontalAlignment="Center" VerticalAlignment="Center" MaxWidth="420">
+                <Border.Effect>
+                    <DropShadowEffect ShadowDepth="4" BlurRadius="20" Opacity="0.15" Direction="270" />
+                </Border.Effect>
+                <StackPanel>
+                    <TextBlock Text="⚠" FontSize="36" HorizontalAlignment="Center" Margin="0,0,0,12"
+                               Foreground="{StaticResource NegativeAccentBrush}" />
+                    <TextBlock Text="无法加载统计数据" FontSize="18" FontWeight="SemiBold"
+                               Foreground="{StaticResource CardForegroundBrush}" TextAlignment="Center" />
+                    <TextBlock Text="{Binding ErrorMessage}" Margin="0,12,0,0" TextWrapping="Wrap"
+                               Foreground="{StaticResource MutedTextBrush}" TextAlignment="Center" />
+                </StackPanel>
+            </Border>
+        </Border>
+    </Grid>
+</UserControl>

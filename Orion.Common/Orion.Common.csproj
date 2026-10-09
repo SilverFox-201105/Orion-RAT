@@ -1,0 +1,60 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+	<PropertyGroup>
+		<TargetFrameworks>net48;net9.0-windows</TargetFrameworks>
+		<OutputType>Library</OutputType>
+		<GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+		<Configurations>Debug;Release</Configurations>
+		<Platforms>AnyCPU;x64</Platforms>
+	</PropertyGroup>
+	<PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+		<OutputPath>..\bin\Debug\</OutputPath>
+		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+		<DocumentationFile></DocumentationFile>
+	</PropertyGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+		<OutputPath>..\bin\Debug\</OutputPath>
+		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+		<DocumentationFile />
+	</PropertyGroup>
+	<PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+		<DebugType>none</DebugType>
+		<OutputPath>..\bin\Release\</OutputPath>
+		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+	</PropertyGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+		<DebugType>none</DebugType>
+		<OutputPath>..\bin\Release\</OutputPath>
+		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+	</PropertyGroup>
+	<ItemGroup>
+		<Compile Remove="Messages\Administration\RemoteExecute\**" />
+		<EmbeddedResource Remove="Messages\Administration\RemoteExecute\**" />
+		<None Remove="Messages\Administration\RemoteExecute\**" />
+	</ItemGroup>
+	<ItemGroup Condition="'$(TargetFramework)' == 'net472'">
+		<Reference Include="System.Core" />
+		<Reference Include="System.Management" />
+		<Reference Include="System.ServiceModel" />
+		<Reference Include="System.Windows.Forms" />
+		<Reference Include="System.Security" />
+	</ItemGroup>
+	<ItemGroup Condition="'$(TargetFramework)' == 'net9.0-windows'">
+		<PackageReference Include="Microsoft.Win32.Registry" Version="5.0.0" />
+		<PackageReference Include="System.Drawing.Common" Version="9.0.7" />
+		<PackageReference Include="System.Management" Version="9.0.7" />
+		<PackageReference Include="System.ServiceModel.Primitives" Version="8.1.2" />
+		<PackageReference Include="System.ServiceModel.Http" Version="8.1.2" />
+		<PackageReference Include="System.ServiceModel.Duplex" Version="6.0.0" />
+		<PackageReference Include="System.ServiceModel.NetTcp" Version="8.1.2" />
+		<PackageReference Include="System.ServiceModel.Security" Version="6.0.0" />
+		<PackageReference Include="System.ServiceModel.Federation" Version="8.1.2" />
+		<PackageReference Include="System.Windows.Forms" Version="4.0.0" />
+	</ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="MessagePack" Version="3.1.7" />
+		<PackageReference Include="System.Runtime.CompilerServices.Unsafe" Version="6.1.2" />
+	</ItemGroup>
+	<ItemGroup>
+	  <Reference Include="System.Windows.Forms" />
+	</ItemGroup>
+</Project>

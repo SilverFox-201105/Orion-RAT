@@ -1,0 +1,54 @@
+# 统一行尾策略：仓库内一律存 LF，检出时按平台/下列规则还原。
+# 目的：消除 core.autocrlf 造成的 "LF will be replaced by CRLF" 噪音，
+#       以及 .sln / .cmd 等 Windows 工具链文件被改成 LF 后打不开的问题。
+
+# eol=lf 同时锁死"检出方向"：只写 text=auto 时 git 仍可能在 checkout 时按平台
+# 输出 CRLF，导致换分支/回退时整文件 diff。锁成 LF 后提交、检出双向一致。
+* text=auto eol=lf
+
+# ---- 源码 / 文本：仓库存 LF ----
+*.cs        text diff=csharp
+*.csproj    text
+*.props     text
+*.targets   text
+*.config    text
+*.xml       text
+*.resx      text
+*.json      text
+*.md        text
+*.txt       text
+*.toml      text
+*.ini       text
+*.py        text
+*.js        text
+*.css       text
+*.html      text
+*.htm       text
+*.gitignore text
+.gitattributes text
+
+# ---- Windows 工具链文件：必须 CRLF（VS 解决方案 / 批处理）----
+*.sln       text eol=crlf
+*.cmd       text eol=crlf
+*.bat       text eol=crlf
+*.ps1       text eol=crlf
+
+# ---- 二进制：禁止任何行尾转换与 diff ----
+*.png  binary
+*.jpg  binary
+*.jpeg binary
+*.gif  binary
+*.bmp  binary
+*.ico  binary
+*.dll  binary
+*.exe  binary
+*.sys  binary
+*.pdb  binary
+*.dat  binary
+*.zip  binary
+*.7z   binary
+*.snk  binary
+*.woff binary
+*.woff2 binary
+*.ttf  binary
+*.mp4  binary

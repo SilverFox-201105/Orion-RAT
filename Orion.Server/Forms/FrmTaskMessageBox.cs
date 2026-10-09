@@ -1,0 +1,36 @@
+﻿using Orion.Server.Forms.DarkMode;
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+
+namespace Orion.Server.Forms
+{
+    public partial class FrmTaskMessageBox : Form
+    {
+        public FrmTaskMessageBox()
+        {
+            InitializeComponent();
+            DarkModeManager.ApplyDarkMode(this);
+        }
+
+        private void FrmTaskMessageBox_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            FrmMain frm = Application.OpenForms["FrmMain"] as FrmMain;
+            if (frm != null)
+            {
+                frm.AddTask("消息框", TTextBox.Text, MTextBox.Text);
+            }
+        }
+    }
+}

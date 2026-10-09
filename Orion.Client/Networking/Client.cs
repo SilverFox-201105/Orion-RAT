@@ -1,0 +1,516 @@
+using Orion.Common.Messages;
+using Orion.Common.Networking;
+using Orion.Common.Extensions;
+using Orion.Common.Messages.Other;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Net;
+using System.Net.Sockets;
+using System.Security.Cryptography;
+using System.Security.Cryptography.X509Certificates;
+using System.Threading;
+using System.Collections.Concurrent;
+using System.Diagnostics;
+using System.IO;
+using System.Buffers;
+using System.Buffers.Binary;
+
+namespace Orion.Client.Networking
+{
+    public class Client : ISender, IDisposable
+    {
+        /// <summary>
+        /// Occurs as a result of an unrecoverable issue with the client.
+        /// </summary>
+        public event ClientFailEventHandler ClientFail;
+
+        /// <summary>
+        /// Represents a method that will handle failure of the client.
+        /// </summary>
+        /// <param name="s">The client that has failed.</param>
+        /// <param name="ex">The exception containing information about the cause of the client's failure.</param>
+        public delegate void ClientFailEventHandler(Client s, Exception ex);
+
+        /// <summary>
+        /// Fires an event that informs subscribers that the client has failed.
+        /// </summary>
+        /// <param name="ex">The exception containing information about the cause of the client's failure.</param>
+        private void OnClientFail(Exception ex)
+        {
+            var handler = ClientFail;
+            handler?.Invoke(this, ex);
+        }
+
+        /// <summary>
+        /// Occurs when the state of the client has changed.
+        /// </summary>
+        public event ClientStateEventHandler ClientState;
+
+        /// <summary>
+        /// Represents the method that will handle a change in the client's state
+        /// </summary>
+        /// <param name="s">The client which changed its state.</param>
+        /// <param name="connected">The new connection state of the client.</param>
+        public delegate void ClientStateEventHandler(Client s, bool connected);
+
+        /// <summary>
+        /// Fires an event that informs subscribers that the state of the client has changed.
+        /// </summary>
+        /// <param name="connected">The new connection state of the client.</param>
+        private void OnClientState(bool connected)
+        {
+            if (Connected == connected) return;
+
+            Connected = connected;
+
+            var handler = ClientState;
+            handler?.Invoke(this, connected);
+        }
+
+        /// <summary>
+        /// Occurs when a message is received from the server.
+        /// </summary>
+        public event ClientReadEventHandler ClientRead;
+
+        /// <summary>
+        /// Represents a method that will handle a message from the server.
+        /// </summary>
+        /// <param name="s">The client that has received the message.</param>
+        /// <param name="message">The message that has been received by the server.</param>
+        /// <param name="messageLength">The length of the message.</param>
+        public delegate void ClientReadEventHandler(Client s, IMessage message, int messageLength);
+
+        /// <summary>
+        /// Fires an event that informs subscribers that a message has been received by the server.
+        /// </summary>
+        /// <param name="message">The message that has been received by the server.</param>
+        /// <param name="messageLength">The length of the message.</param>
+        private void OnClientRead(IMessage message, int messageLength)
+        {
+            Debug.WriteLine($"[CLIENT] Received packet: {message.GetType().Name} (Length: {messageLength} bytes)");
+            var handler = ClientRead;
+            handler?.Invoke(this, message, messageLength);
+        }
+
+        /// <summary>
+        /// The keep-alive time in ms.
+        /// </summary>
+        public uint KEEP_ALIVE_TIME => 25000; // 25s
+
+        /// <summary>
+        /// The keep-alive interval in ms.
+        /// </summary>
+        public uint KEEP_ALIVE_INTERVAL => 25000; // 25s
+
+        /// <summary>
+        /// The header size in bytes.
+        /// </summary>
+        public int HEADER_SIZE => 4; // 4B
+
+        /// <summary>
+        /// Gets if the client is currently connected to a server.
+        /// </summary>
+        public bool Connected { get; private set; }
+
+        /// <summary>
+        /// The stream used for communication.
+        /// </summary>
+        private Stream _stream;
+
+        /// <summary>
+        /// The server certificate.
+        /// </summary>
+        private readonly X509Certificate2 _serverCertificate;
+
+        /// <summary>
+        /// Indicates whether secure envelopes should be enforced for all traffic.
+        /// </summary>
+        protected bool EncryptTraffic { get; set; }
+
+
+        readonly object _readMessageLock = new object();
+        readonly object _sendMessageLock = new object();
+
+        /// <summary>
+        /// The buffer for the client's incoming payload.
+        /// </summary>
+        private byte[] _readBuffer;
+
+        /// <summary>
+        /// The queue which holds messages to send.
+        /// </summary>
+        private readonly ConcurrentQueue<IMessage> _sendBuffers = new ConcurrentQueue<IMessage>();
+
+        /// <summary>
+        /// Determines if the client is currently sending messages.
+        /// </summary>
+        private int _sendingMessagesFlag;
+
+        // Receive info
+        private int _readOffset;
+        private int _readLength;
+
+        /// <summary>
+        /// Constructor of the client, initializes serializer types.
+        /// </summary>
+        /// <param name="serverCertificate">The server certificate.</param>
+        protected Client(X509Certificate2 serverCertificate)
+        {
+            _serverCertificate = serverCertificate;
+            _readBuffer = new byte[HEADER_SIZE];
+            _readOffset = 0;
+            _readLength = HEADER_SIZE;
+
+#if DEBUG
+            var certificateUsable = SecureMessageEnvelopeHelper.CanUse(_serverCertificate);
+            var enforceEncryptionFlag = Environment.GetEnvironmentVariable("Orion_DEBUG_ENFORCE_ENCRYPTION");
+            var enforceEncryption = !string.IsNullOrWhiteSpace(enforceEncryptionFlag)
+                && (enforceEncryptionFlag.Equals("1", StringComparison.OrdinalIgnoreCase)
+                    || enforceEncryptionFlag.Equals("true", StringComparison.OrdinalIgnoreCase)
+                    || enforceEncryptionFlag.Equals("yes", StringComparison.OrdinalIgnoreCase));
+
+            if (enforceEncryption && certificateUsable)
+            {
+                EncryptTraffic = true;
+                Debug.WriteLine("[CLIENT] Debug build: encryption enforced via Orion_DEBUG_ENFORCE_ENCRYPTION.");
+            }
+            else
+            {
+                EncryptTraffic = false;
+                if (!certificateUsable)
+                {
+                    Debug.WriteLine("[CLIENT] Debug build: server certificate missing, running without encryption.");
+                }
+                else
+                {
+                    var logMessage = enforceEncryption
+                        ? "[CLIENT] Debug build: encryption enforcement requested but certificate cannot be used; continuing without encryption."
+                        : "[CLIENT] Debug build: encryption disabled by default for development.";
+                    Debug.WriteLine(logMessage);
+                }
+            }
+#else
+            EncryptTraffic = SecureMessageEnvelopeHelper.CanUse(_serverCertificate);
+            if (!EncryptTraffic)
+            {
+                throw new InvalidOperationException("A valid server certificate is required for secure communication.");
+            }
+#endif
+        }
+
+        /// <summary>
+        /// Maximum time in milliseconds a single connection attempt may take before it is aborted
+        /// and the next host is tried. Without this a host that silently drops SYN packets blocks
+        /// the connect loop for the OS default timeout (~21 seconds) per host.
+        /// </summary>
+        private const int CONNECT_TIMEOUT_MS = 5000;
+
+        /// <summary>
+        /// Attempts to connect to the specified ip address on the specified port.
+        /// </summary>
+        /// <param name="ip">The ip address to connect to.</param>
+        /// <param name="port">The port of the host.</param>
+        protected void Connect(IPAddress ip, ushort port)
+        {
+            Socket handle = null;
+            try
+            {
+                Disconnect();
+
+                handle = new Socket(ip.AddressFamily, SocketType.Stream, ProtocolType.Tcp);
+                handle.NoDelay = true;
+                handle.SetKeepAliveEx(KEEP_ALIVE_INTERVAL, KEEP_ALIVE_TIME);
+
+                var connectResult = handle.BeginConnect(ip, port, null, null);
+                if (!connectResult.AsyncWaitHandle.WaitOne(CONNECT_TIMEOUT_MS))
+                {
+                    handle.Dispose();
+                    handle = null;
+                    throw new TimeoutException(string.Format("Connection to {0}:{1} timed out after {2} ms.", ip, port, CONNECT_TIMEOUT_MS));
+                }
+
+                handle.EndConnect(connectResult);
+
+                if (handle.Connected)
+                {
+                    _stream = new NetworkStream(handle, true);
+                    _stream.BeginRead(_readBuffer, _readOffset, _readBuffer.Length, AsyncReceive, null);
+                    OnClientState(true);
+                }
+                else
+                {
+                    handle.Dispose();
+                }
+            }
+            catch (Exception ex)
+            {
+                handle?.Dispose();
+                OnClientFail(ex);
+            }
+        }
+
+        private void AsyncReceive(IAsyncResult result)
+        {
+            try
+            {
+                if (_stream == null)
+                {
+                    return;
+                }
+
+                var bytesRead = _stream.EndRead(result);
+                if (bytesRead <= 0)
+                    throw new Exception("no bytes transferred");
+
+                lock (_readMessageLock)
+                {
+                    _readOffset += bytesRead;
+                    _readLength -= bytesRead;
+
+                    if (_readLength == 0)
+                    {
+                        if (_readBuffer.Length == HEADER_SIZE)
+                        {
+                            var length = BitConverter.ToInt32(_readBuffer, 0);
+                            if (length <= 0)
+                                throw new InvalidDataException("Invalid message length.");
+
+                            _readBuffer = new byte[length];
+                            _readOffset = 0;
+                            _readLength = length;
+                        }
+                        else
+                        {
+                            try
+                            {
+                                var message = OrionMessagePackSerializer.Deserialize(_readBuffer);
+                                message = ProcessIncomingMessage(message);
+                                OnClientRead(message, _readBuffer.Length);
+                            }
+                            finally
+                            {
+                                _readBuffer = new byte[HEADER_SIZE];
+                                _readOffset = 0;
+                                _readLength = HEADER_SIZE;
+                            }
+                        }
+                    }
+
+                }
+
+                if (_stream != null)
+                {
+                    ThreadPool.QueueUserWorkItem(_ =>
+                    {
+                        try
+                        {
+                            if (_stream != null)
+                            {
+                                _stream.BeginRead(_readBuffer, _readOffset, _readLength, AsyncReceive, result.AsyncState);
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            Disconnect();
+                            OnClientFail(ex);
+                        }
+                    });
+                }
+            }
+            catch (Exception ex)
+            {
+                Disconnect();
+                OnClientFail(ex);
+            }
+        }
+
+        /// <summary>
+        /// Sends a message to the connected server.
+        /// </summary>
+        /// <typeparam name="T">The type of the message.</typeparam>
+        /// <param name="message">The message to be sent.</param>
+        public void Send<T>(T message) where T : IMessage
+        {
+            if (!Connected || message == null)
+                return;
+
+            _sendBuffers.Enqueue(message);
+            if (Interlocked.Exchange(ref _sendingMessagesFlag, 1) == 0)
+            {
+                ThreadPool.QueueUserWorkItem(ProcessSendBuffers);
+            }
+        }
+
+        private void ProcessSendBuffers(object state)
+        {
+            while (true)
+            {
+                if (!Connected)
+                {
+                    SendCleanup(true);
+                    return;
+                }
+
+                if (!_sendBuffers.TryDequeue(out var message))
+                {
+                    SendCleanup();
+                    return;
+                }
+
+                SafeSendMessage(message);
+            }
+        }
+
+        private void SendCleanup(bool clear = false)
+        {
+            Interlocked.Exchange(ref _sendingMessagesFlag, 0);
+            if (clear)
+            {
+                while (_sendBuffers.TryDequeue(out _)) ;
+            }
+        }
+        
+        private IMessage PrepareMessageForSend(IMessage message)
+        {
+            if (message == null)
+            {
+                return null;
+            }
+
+            if (message is SecureMessageEnvelope)
+            {
+                return message;
+            }
+
+            if (!EncryptTraffic)
+            {
+                return message;
+            }
+
+            if (!SecureMessageEnvelopeHelper.CanUse(_serverCertificate))
+            {
+                throw new InvalidOperationException("Secure transport is enabled but no certificate is available.");
+            }
+
+            return SecureMessageEnvelopeHelper.Wrap(message, _serverCertificate);
+        }
+        
+        private IMessage ProcessIncomingMessage(IMessage message)
+        {
+            if (message is SecureMessageEnvelope secureEnvelope)
+            {
+                if (!SecureMessageEnvelopeHelper.CanUse(_serverCertificate))
+                {
+                    throw new InvalidOperationException("Received a secure envelope but no certificate is available for decryption.");
+                }
+
+                return SecureMessageEnvelopeHelper.Unwrap(secureEnvelope, _serverCertificate);
+            }
+
+            if (EncryptTraffic)
+            {
+                throw new InvalidOperationException($"Received unexpected plaintext message of type {message?.GetType().Name} while encryption is enforced.");
+            }
+
+            return message;
+        }
+
+        /// <summary>
+        /// Sends a message to the connected server and blocks until sent.
+        /// </summary>
+        /// <typeparam name="T">The type of the message.</typeparam>
+        /// <param name="message">The message to be sent.</param>
+        public void SendBlocking<T>(T message) where T : IMessage
+        {
+            if (!Connected || message == null)
+                return;
+
+            SafeSendMessage(message);
+        }
+
+        /// <summary>
+        /// Safely sends a message and prevents multiple simultaneous
+        /// write operations on the <see cref="_stream"/>.
+        /// </summary>
+        /// <param name="message">The message to send.</param>
+        private void SafeSendMessage(IMessage message)
+        {
+            lock (_sendMessageLock)
+            {
+                if (_stream == null)
+                    return;
+
+                try
+                {
+                    var prepared = PrepareMessageForSend(message);
+                    if (prepared == null)
+                    {
+                        return;
+                    }
+
+                    var payload = OrionMessagePackSerializer.Serialize(prepared);
+                    int totalLength = HEADER_SIZE + payload.Length;
+
+                    byte[] buffer = ArrayPool<byte>.Shared.Rent(totalLength);
+                    try
+                    {
+                        BinaryPrimitives.WriteInt32LittleEndian(new Span<byte>(buffer, 0, HEADER_SIZE), payload.Length);
+                        Buffer.BlockCopy(payload, 0, buffer, HEADER_SIZE, payload.Length);
+                        _stream?.Write(buffer, 0, totalLength);
+                    }
+                    finally
+                    {
+                        ArrayPool<byte>.Shared.Return(buffer, clearArray: false);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Disconnect();
+                    OnClientFail(ex);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Disconnect the client from the server, disconnect all proxies that
+        /// are held by this client, and dispose of other resources associated
+        /// with this client.
+        /// </summary>
+        public void Disconnect()
+        {
+            lock (_sendMessageLock)
+            {
+                if (_stream != null)
+                {
+                    _stream.Dispose();
+                    _stream = null;
+                }
+            }
+
+            _readBuffer = new byte[HEADER_SIZE];
+            _readOffset = 0;
+            _readLength = HEADER_SIZE;
+
+            SendCleanup(true);
+            OnClientState(false);
+        }
+
+        /// <summary>
+        /// Implement IDisposable for managed resources.
+        /// </summary>
+        protected virtual void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                Disconnect();
+            }
+        }
+
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+    }
+}

@@ -1,0 +1,290 @@
+﻿using System.Windows.Forms.Integration;
+
+namespace Orion.Server.Forms
+{
+    partial class FrmTaskManager
+    {
+        /// <summary>
+        /// Required designer variable.
+        /// </summary>
+        private System.ComponentModel.IContainer components = null;
+
+        /// <summary>
+        /// Clean up any resources being used.
+        /// </summary>
+        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing && (components != null))
+            {
+                components.Dispose();
+            }
+            base.Dispose(disposing);
+        }
+
+        #region Windows Form Designer generated code
+
+        /// <summary>
+        /// Required method for Designer support - do not modify
+        /// the contents of this method with the code editor.
+        /// </summary>
+        private void InitializeComponent()
+        {
+            components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmTaskManager));
+            contextMenuStrip = new System.Windows.Forms.ContextMenuStrip(components);
+            killProcessToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            suspendProcessToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            beginSuspendToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            endSuspendToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            minimizeMaximizeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            minimizedToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            maximizedToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            topmostWindowToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            topmostOnToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            topmostOffToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            lineToolStripMenuItem = new System.Windows.Forms.ToolStripSeparator();
+            searchToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            dumpMemoryToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            startProcessToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            enableDisableAutoRefreshToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            refreshToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            tableLayoutPanel = new System.Windows.Forms.TableLayoutPanel();
+            processTreeHost = new ElementHost();
+            statusStrip = new System.Windows.Forms.StatusStrip();
+            processesToolStripStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
+            toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
+            contextMenuStrip.SuspendLayout();
+            tableLayoutPanel.SuspendLayout();
+            statusStrip.SuspendLayout();
+            SuspendLayout();
+            // 
+            // contextMenuStrip
+            // 
+            contextMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] { killProcessToolStripMenuItem, suspendProcessToolStripMenuItem, minimizeMaximizeToolStripMenuItem, topmostWindowToolStripMenuItem, lineToolStripMenuItem, searchToolStripMenuItem, dumpMemoryToolStripMenuItem, startProcessToolStripMenuItem, enableDisableAutoRefreshToolStripMenuItem, refreshToolStripMenuItem });
+            contextMenuStrip.Name = "ctxtMenu";
+            contextMenuStrip.Size = new System.Drawing.Size(169, 208);
+            // 
+            // killProcessToolStripMenuItem
+            // 
+            killProcessToolStripMenuItem.Image = Properties.Resources.cancel;
+            killProcessToolStripMenuItem.Name = "killProcessToolStripMenuItem";
+            killProcessToolStripMenuItem.Size = new System.Drawing.Size(168, 22);
+            killProcessToolStripMenuItem.Text = "结束进程";
+            killProcessToolStripMenuItem.Click += killProcessToolStripMenuItem_Click;
+            // 
+            // suspendProcessToolStripMenuItem
+            // 
+            suspendProcessToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] { beginSuspendToolStripMenuItem, endSuspendToolStripMenuItem });
+            suspendProcessToolStripMenuItem.Image = Properties.Resources.wait;
+            suspendProcessToolStripMenuItem.Name = "suspendProcessToolStripMenuItem";
+            suspendProcessToolStripMenuItem.Size = new System.Drawing.Size(168, 22);
+            suspendProcessToolStripMenuItem.Text = "挂起进程";
+            suspendProcessToolStripMenuItem.Click += suspendProcessToolStripMenuItem_Click;
+            // 
+            // beginSuspendToolStripMenuItem
+            // 
+            beginSuspendToolStripMenuItem.Image = Properties.Resources.anchor;
+            beginSuspendToolStripMenuItem.Name = "beginSuspendToolStripMenuItem";
+            beginSuspendToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            beginSuspendToolStripMenuItem.Text = "开始挂起";
+            beginSuspendToolStripMenuItem.Click += beginSuspendToolStripMenuItem_Click;
+            // 
+            // endSuspendToolStripMenuItem
+            // 
+            endSuspendToolStripMenuItem.Image = Properties.Resources.actions;
+            endSuspendToolStripMenuItem.Name = "endSuspendToolStripMenuItem";
+            endSuspendToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            endSuspendToolStripMenuItem.Text = "结束挂起";
+            endSuspendToolStripMenuItem.Click += endSuspendToolStripMenuItem_Click;
+            // 
+            // minimizeMaximizeToolStripMenuItem
+            // 
+            minimizeMaximizeToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] { minimizedToolStripMenuItem, maximizedToolStripMenuItem });
+            minimizeMaximizeToolStripMenuItem.Image = Properties.Resources.windowstateicon;
+            minimizeMaximizeToolStripMenuItem.Name = "minimizeMaximizeToolStripMenuItem";
+            minimizeMaximizeToolStripMenuItem.Size = new System.Drawing.Size(168, 22);
+            minimizeMaximizeToolStripMenuItem.Text = "窗口状态";
+            // 
+            // minimizedToolStripMenuItem
+            // 
+            minimizedToolStripMenuItem.Image = Properties.Resources.minimizewindowicon;
+            minimizedToolStripMenuItem.Name = "minimizedToolStripMenuItem";
+            minimizedToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            minimizedToolStripMenuItem.Text = "最小化";
+            minimizedToolStripMenuItem.Click += minimizedToolStripMenuItem_Click;
+            // 
+            // maximizedToolStripMenuItem
+            // 
+            maximizedToolStripMenuItem.Image = Properties.Resources.maximizewindowicon;
+            maximizedToolStripMenuItem.Name = "maximizedToolStripMenuItem";
+            maximizedToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            maximizedToolStripMenuItem.Text = "最大化";
+            maximizedToolStripMenuItem.Click += maximizedToolStripMenuItem_Click;
+            // 
+            // topmostWindowToolStripMenuItem
+            // 
+            topmostWindowToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] { topmostOnToolStripMenuItem, topmostOffToolStripMenuItem });
+            topmostWindowToolStripMenuItem.Image = Properties.Resources.topmostwindowicon;
+            topmostWindowToolStripMenuItem.Name = "topmostWindowToolStripMenuItem";
+            topmostWindowToolStripMenuItem.Size = new System.Drawing.Size(168, 22);
+            topmostWindowToolStripMenuItem.Text = "窗口置顶";
+            // 
+            // topmostOnToolStripMenuItem
+            // 
+            topmostOnToolStripMenuItem.Image = Properties.Resources.startbutton;
+            topmostOnToolStripMenuItem.Name = "topmostOnToolStripMenuItem";
+            topmostOnToolStripMenuItem.Size = new System.Drawing.Size(141, 22);
+            topmostOnToolStripMenuItem.Text = "开启置顶";
+            topmostOnToolStripMenuItem.Click += topmostOnToolStripMenuItem_Click;
+            // 
+            // topmostOffToolStripMenuItem
+            // 
+            topmostOffToolStripMenuItem.Image = Properties.Resources.stopbutton;
+            topmostOffToolStripMenuItem.Name = "topmostOffToolStripMenuItem";
+            topmostOffToolStripMenuItem.Size = new System.Drawing.Size(141, 22);
+            topmostOffToolStripMenuItem.Text = "关闭置顶";
+            topmostOffToolStripMenuItem.Click += topmostOffToolStripMenuItem_Click;
+            // 
+            // lineToolStripMenuItem
+            // 
+            lineToolStripMenuItem.Name = "lineToolStripMenuItem";
+            lineToolStripMenuItem.Size = new System.Drawing.Size(165, 6);
+            // 
+            // searchToolStripMenuItem
+            // 
+            searchToolStripMenuItem.Image = Properties.Resources.magnifyingglassicon;
+            searchToolStripMenuItem.Name = "searchToolStripMenuItem";
+            searchToolStripMenuItem.Size = new System.Drawing.Size(168, 22);
+            searchToolStripMenuItem.Text = "搜索 (Ctrl + F)";
+            searchToolStripMenuItem.Click += searchToolStripMenuItem_Click;
+            // 
+            // dumpMemoryToolStripMenuItem
+            // 
+            dumpMemoryToolStripMenuItem.Image = Properties.Resources.broom;
+            dumpMemoryToolStripMenuItem.Name = "dumpMemoryToolStripMenuItem";
+            dumpMemoryToolStripMenuItem.Size = new System.Drawing.Size(168, 22);
+            dumpMemoryToolStripMenuItem.Text = "转储内存";
+            dumpMemoryToolStripMenuItem.Click += dumpMemoryToolStripMenuItem_Click;
+            // 
+            // startProcessToolStripMenuItem
+            // 
+            startProcessToolStripMenuItem.Image = Properties.Resources.application_go;
+            startProcessToolStripMenuItem.Name = "startProcessToolStripMenuItem";
+            startProcessToolStripMenuItem.Size = new System.Drawing.Size(168, 22);
+            startProcessToolStripMenuItem.Text = "启动进程";
+            startProcessToolStripMenuItem.Click += startProcessToolStripMenuItem_Click;
+            // 
+            // enableDisableAutoRefreshToolStripMenuItem
+            // 
+            enableDisableAutoRefreshToolStripMenuItem.Image = Properties.Resources.autorefreshicon;
+            enableDisableAutoRefreshToolStripMenuItem.Name = "enableDisableAutoRefreshToolStripMenuItem";
+            enableDisableAutoRefreshToolStripMenuItem.Size = new System.Drawing.Size(168, 22);
+            enableDisableAutoRefreshToolStripMenuItem.Text = "自动刷新";
+            enableDisableAutoRefreshToolStripMenuItem.Click += enableDisableAutoRefreshToolStripMenuItem_Click;
+            // 
+            // refreshToolStripMenuItem
+            // 
+            refreshToolStripMenuItem.Image = Properties.Resources.refresh;
+            refreshToolStripMenuItem.Name = "refreshToolStripMenuItem";
+            refreshToolStripMenuItem.Size = new System.Drawing.Size(168, 22);
+            refreshToolStripMenuItem.Text = "刷新";
+            refreshToolStripMenuItem.Click += refreshToolStripMenuItem_Click;
+            // 
+            // tableLayoutPanel
+            // 
+            tableLayoutPanel.ColumnCount = 1;
+            tableLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            tableLayoutPanel.Controls.Add(processTreeHost, 0, 0);
+            tableLayoutPanel.Controls.Add(statusStrip, 0, 1);
+            tableLayoutPanel.Dock = System.Windows.Forms.DockStyle.Fill;
+            tableLayoutPanel.Location = new System.Drawing.Point(0, 0);
+            tableLayoutPanel.Name = "tableLayoutPanel";
+            tableLayoutPanel.RowCount = 2;
+            tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 22F));
+            tableLayoutPanel.Size = new System.Drawing.Size(821, 493);
+            tableLayoutPanel.TabIndex = 2;
+            // 
+            // processTreeHost
+            // 
+            processTreeHost.BackColor = System.Drawing.Color.Transparent;
+            processTreeHost.ContextMenuStrip = contextMenuStrip;
+            processTreeHost.Dock = System.Windows.Forms.DockStyle.Fill;
+            processTreeHost.Location = new System.Drawing.Point(3, 3);
+            processTreeHost.Name = "processTreeHost";
+            processTreeHost.Size = new System.Drawing.Size(815, 465);
+            processTreeHost.TabIndex = 1;
+            processTreeHost.Text = "processTreeHost";
+            // 
+            // statusStrip
+            // 
+            statusStrip.Dock = System.Windows.Forms.DockStyle.Fill;
+            statusStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] { processesToolStripStatusLabel, toolStripStatusLabel1 });
+            statusStrip.Location = new System.Drawing.Point(0, 471);
+            statusStrip.Name = "statusStrip";
+            statusStrip.Size = new System.Drawing.Size(821, 22);
+            statusStrip.TabIndex = 2;
+            statusStrip.Text = "statusStrip1";
+            // 
+            // processesToolStripStatusLabel
+            // 
+            processesToolStripStatusLabel.Name = "processesToolStripStatusLabel";
+            processesToolStripStatusLabel.Size = new System.Drawing.Size(70, 17);
+            processesToolStripStatusLabel.Text = "进程数：0";
+            // 
+            // toolStripStatusLabel1
+            // 
+            toolStripStatusLabel1.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
+            toolStripStatusLabel1.Name = "toolStripStatusLabel1";
+            toolStripStatusLabel1.Size = new System.Drawing.Size(10, 17);
+            toolStripStatusLabel1.Text = "‎ ";
+            // 
+            // FrmTaskManager
+            // 
+            AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
+            AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
+            ClientSize = new System.Drawing.Size(821, 493);
+            Controls.Add(tableLayoutPanel);
+            Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 0);
+            Icon = (System.Drawing.Icon)resources.GetObject("$this.Icon");
+            MinimumSize = new System.Drawing.Size(351, 449);
+            Name = "FrmTaskManager";
+            StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+            Text = "任务管理器 []";
+            FormClosing += FrmTaskManager_FormClosing;
+            Load += FrmTaskManager_Load;
+            contextMenuStrip.ResumeLayout(false);
+            tableLayoutPanel.ResumeLayout(false);
+            tableLayoutPanel.PerformLayout();
+            statusStrip.ResumeLayout(false);
+            statusStrip.PerformLayout();
+            ResumeLayout(false);
+        }
+
+        #endregion
+
+        private System.Windows.Forms.ContextMenuStrip contextMenuStrip;
+        private System.Windows.Forms.ToolStripMenuItem killProcessToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem refreshToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem startProcessToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator lineToolStripMenuItem;
+        private ElementHost processTreeHost;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel;
+        private System.Windows.Forms.StatusStrip statusStrip;
+        private System.Windows.Forms.ToolStripStatusLabel processesToolStripStatusLabel;
+        private System.Windows.Forms.ToolStripMenuItem dumpMemoryToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem suspendProcessToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem topmostWindowToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem topmostOnToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem topmostOffToolStripMenuItem;
+        private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel1;
+        private System.Windows.Forms.ToolStripMenuItem searchToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem enableDisableAutoRefreshToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem minimizeMaximizeToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem minimizedToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem maximizedToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem beginSuspendToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem endSuspendToolStripMenuItem;
+    }
+}

@@ -1,0 +1,45 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!-- UI 扩展插件模板：同样是服务端插件，目标框架 net9.0-windows -->
+  <PropertyGroup>
+    <TargetFramework>net9.0-windows</TargetFramework>
+    <UseWindowsForms>true</UseWindowsForms>
+    <Nullable>disable</Nullable>
+    <LangVersion>latest</LangVersion>
+    <Platforms>AnyCPU</Platforms>
+    <ImplicitUsings>disable</ImplicitUsings>
+
+    <AssemblyName>MyUiPlugin</AssemblyName>
+    <RootNamespace>MyUiPlugin</RootNamespace>
+
+    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+    <OutputPath>bin\</OutputPath>
+    <GenerateDependencyFile>false</GenerateDependencyFile>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <!-- 服务端主程序集是 Orion.dll（不是 Orion.Server.dll）；契约程序集请从开发者 SDK 的 Libs-Contract\ 取，不要使用运行目录里的真实 DLL。 -->
+    <Reference Include="Orion">
+      <HintPath>libs\Orion.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="Orion.Common">
+      <HintPath>libs\Orion.Common.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="MessagePack" Version="3.1.7">
+      <PrivateAssets>all</PrivateAssets>
+      <ExcludeAssets>runtime</ExcludeAssets>
+    </PackageReference>
+  </ItemGroup>
+
+  <!-- 可选：插件图标（嵌入资源，供 AddClientContextMenuItem(text, icon, onClick) 使用）
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\plugin.ico" LogicalName="MyUiPlugin.Resources.plugin.ico" />
+  </ItemGroup>
+  -->
+
+</Project>

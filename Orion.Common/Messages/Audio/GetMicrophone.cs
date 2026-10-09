@@ -1,0 +1,21 @@
+﻿using MessagePack;
+using Orion.Common.Messages.Other;
+
+namespace Orion.Common.Messages.Audio
+{
+    [MessagePackObject]
+    public class GetMicrophone : IMessage
+    {
+        [Key(1)]
+        public bool CreateNew { get; set; }
+
+        [Key(2)]
+        public int DeviceIndex { get; set; }
+
+        [Key(3)]
+        public int Bitrate { get; set; }
+
+        [Key(4)]
+        public bool Destroy { get; set; }
+    }
+}

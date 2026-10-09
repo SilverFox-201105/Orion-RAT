@@ -1,0 +1,375 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">	
+	<PropertyGroup>
+		<TargetFramework>net9.0-windows</TargetFramework>
+		<OutputType>WinExe</OutputType>
+		<AssemblyName>Orion</AssemblyName>
+		<UseWindowsForms>true</UseWindowsForms>
+		<GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+		<Configurations>Debug;Release</Configurations>
+		<GenerateResourceUsePreserializedResources>true</GenerateResourceUsePreserializedResources>
+		<StartupObject>Orion.Server.Program</StartupObject>
+		<ApplicationIcon>Images\Icons\Orion_Server.ico</ApplicationIcon>
+		<ApplicationManifest>app.manifest</ApplicationManifest>
+		<ApplicationHighDpiMode>PerMonitorV2</ApplicationHighDpiMode>
+		<ForceDesignerDpiUnaware>true</ForceDesignerDpiUnaware>
+		<CustomResourceTypesSupport>true</CustomResourceTypesSupport>
+		<EnableWindowsTargeting>true</EnableWindowsTargeting>
+		<UseWPF>true</UseWPF>
+		<NoWarn>$(NoWarn);CA1416</NoWarn>
+	</PropertyGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|AnyCPU'">
+		<OutputPath>..\bin\Debug\</OutputPath>
+		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+		<UseVSHostingProcess>false</UseVSHostingProcess>
+		<CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+	</PropertyGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|AnyCPU'">
+		<OutputPath>..\bin\Release\</OutputPath>
+		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+		<DebugType>none</DebugType>
+		<UseVSHostingProcess>false</UseVSHostingProcess>
+		<CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+	</PropertyGroup>
+	<ItemGroup>
+		<PackageReference Include="Microsoft.Data.Sqlite" Version="8.0.8" />
+		<PackageReference Include="dnlib" Version="4.5.0" />
+		<PackageReference Include="Mono.Cecil" Version="0.11.6" />
+		<PackageReference Include="MouseKeyHook" Version="5.7.1" GeneratePathProperty="true" />
+		<PackageReference Include="NAudio.Asio" Version="2.2.1" />
+		<PackageReference Include="NAudio.Core" Version="2.2.1" GeneratePathProperty="true" />
+		<PackageReference Include="NAudio.Midi" Version="2.2.1" />
+		<PackageReference Include="NAudio.Wasapi" Version="2.2.1" GeneratePathProperty="true" />
+		<PackageReference Include="NAudio.WinForms" Version="2.2.1" GeneratePathProperty="true" />
+		<PackageReference Include="NAudio.WinMM" Version="2.2.1" GeneratePathProperty="true" />
+		<PackageReference Include="Portable.BouncyCastle" Version="1.9.0" />
+		<PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+		<PackageReference Include="MessagePack" Version="3.1.7" />
+		<PackageReference Include="System.Resources.Extensions" Version="9.0.7" />
+		<PackageReference Include="System.Runtime.CompilerServices.Unsafe" Version="6.1.2" />
+		<PackageReference Include="Vestris.ResourceLib" Version="2.2.0" />
+		<PackageReference Include="System.Configuration.ConfigurationManager" Version="9.0.7" />
+		<PackageReference Include="System.ServiceModel.Primitives" Version="8.1.2" />
+		<PackageReference Include="System.ServiceModel.Http" Version="8.1.2" />
+		<PackageReference Include="System.ServiceModel.Duplex" Version="6.0.0" />
+		<PackageReference Include="System.ServiceModel.NetTcp" Version="8.1.2" />
+		<PackageReference Include="System.ServiceModel.Security" Version="6.0.0" />
+		<PackageReference Include="System.ServiceModel.Federation" Version="8.1.2" />
+		<PackageReference Include="LiveChartsCore" Version="2.0.0-rc6.1" />
+		<PackageReference Include="LiveChartsCore.SkiaSharpView" Version="2.0.0-rc6.1" />
+		<PackageReference Include="LiveChartsCore.SkiaSharpView.WPF" Version="2.0.0-rc6.1" />
+		<PackageReference Include="SkiaSharp" Version="3.119.0" />
+		<PackageReference Include="SkiaSharp.Views.WPF" Version="3.119.0" />
+		<PackageReference Include="HarfBuzzSharp" Version="8.3.1.1" />
+		<PackageReference Include="SkiaSharp.HarfBuzz" Version="3.119.0" />
+		<PackageReference Include="System.Security.Cryptography.Xml" Version="8.0.4" />
+		<PackageReference Include="SQLitePCLRaw.lib.e_sqlite3" Version="2.1.12-pre20260709125052" />
+		<PackageReference Include="Costura.Fody" Version="6.0.0" PrivateAssets="all" />
+	</ItemGroup>
+	<ItemGroup>
+		<Compile Update="Controls\DotNetBarTabControl.cs" />
+		<Compile Update="Controls\HexEditor\HexEditor.cs" />
+		<Compile Update="Controls\Line.cs" />
+		<Compile Update="Controls\RapidPictureBox.cs" />
+		<Compile Update="Controls\RegistryTreeView.cs" />
+		<Compile Update="Controls\WordTextBox.cs" />
+		<Compile Update="Controls\WordTextBox.Designer.cs">
+			<DependentUpon>WordTextBox.cs</DependentUpon>
+		</Compile>
+		<Compile Update="Forms\FrmCertificate.cs" />
+		<Compile Update="Forms\FrmCertificate.Designer.cs">
+			<DependentUpon>FrmCertificate.cs</DependentUpon>
+		</Compile>
+		<Compile Update="Forms\FrmAbout.cs" />
+		<Compile Update="Forms\FrmAbout.Designer.cs">
+			<DependentUpon>FrmAbout.cs</DependentUpon>
+		</Compile>
+		<Compile Update="Forms\FrmRemoteWebcam.cs" />
+		<Compile Update="Forms\FrmRemoteWebcam.Designer.cs">
+			<DependentUpon>FrmRemoteWebcam.cs</DependentUpon>
+		</Compile>
+		<Compile Update="Forms\FrmStartupAdd.cs" />
+		<Compile Update="Forms\FrmStartupAdd.Designer.cs">
+			<DependentUpon>FrmStartupAdd.cs</DependentUpon>
+		</Compile>
+		<Compile Update="Forms\FrmBuilder.cs" />
+		<Compile Update="Forms\FrmBuilder.Designer.cs">
+			<DependentUpon>FrmBuilder.cs</DependentUpon>
+		</Compile>
+		<Compile Update="Forms\FrmConnections.cs" />
+		<Compile Update="Forms\FrmConnections.Designer.cs">
+			<DependentUpon>FrmConnections.cs</DependentUpon>
+		</Compile>
+		<Compile Update="Forms\FrmFileManager.cs" />
+		<Compile Update="Forms\FrmFileManager.Designer.cs">
+			<DependentUpon>FrmFileManager.cs</DependentUpon>
+		</Compile>
+		<Compile Update="Forms\FrmMain.cs" />
+		<Compile Update="Forms\FrmMain.Designer.cs">
+			<DependentUpon>FrmMain.cs</DependentUpon>
+		</Compile>
+		<Compile Update="Controls\ListViewEx.cs" />
+		<Compile Update="Forms\FrmRegistryEditor.cs" />
+		<Compile Update="Forms\FrmRegistryEditor.Designer.cs">
+			<DependentUpon>FrmRegistryEditor.cs</DependentUpon>
+		</Compile>
+		<Compile Update="Forms\FrmRegValueEditBinary.cs" />
+		<Compile Update="Forms\FrmRegValueEditBinary.Designer.cs">
+			<DependentUpon>FrmRegValueEditBinary.cs</DependentUpon>
+		</Compile>
+		<Compile Update="Forms\FrmRegValueEditMultiString.cs" />
+		<Compile Update="Forms\FrmRegValueEditMultiString.Designer.cs">
+			<DependentUpon>FrmRegValueEditMultiString.cs</DependentUpon>
+		</Compile>
+		<Compile Update="Forms\FrmRegValueEditString.cs" />
+		<Compile Update="Forms\FrmRegValueEditString.Designer.cs">
+			<DependentUpon>FrmRegValueEditString.cs</DependentUpon>
+		</Compile>
+		<Compile Update="Forms\FrmRegValueEditWord.cs" />
+		<Compile Update="Forms\FrmRegValueEditWord.Designer.cs">
+			<DependentUpon>FrmRegValueEditWord.cs</DependentUpon>
+		</Compile>
+		<Compile Update="Forms\FrmRemoteDesktop.cs" />
+		<Compile Update="Forms\FrmRemoteDesktop.Designer.cs">
+			<DependentUpon>FrmRemoteDesktop.cs</DependentUpon>
+		</Compile>
+		<Compile Update="Forms\FrmRemoteShell.cs" />
+		<Compile Update="Forms\FrmRemoteShell.Designer.cs">
+			<DependentUpon>FrmRemoteShell.cs</DependentUpon>
+		</Compile>
+		<Compile Update="Forms\FrmSettings.cs" />
+		<Compile Update="Forms\FrmSettings.Designer.cs">
+			<DependentUpon>FrmSettings.cs</DependentUpon>
+		</Compile>
+		<Compile Update="Forms\FrmShowMessagebox.cs" />
+		<Compile Update="Forms\FrmShowMessagebox.Designer.cs">
+			<DependentUpon>FrmShowMessagebox.cs</DependentUpon>
+		</Compile>
+		<Compile Update="Forms\FrmStartupManager.cs" />
+		<Compile Update="Forms\FrmStartupManager.Designer.cs">
+			<DependentUpon>FrmStartupManager.cs</DependentUpon>
+		</Compile>
+		<Compile Update="Forms\FrmSystemInformation.cs" />
+		<Compile Update="Forms\FrmSystemInformation.Designer.cs">
+			<DependentUpon>FrmSystemInformation.cs</DependentUpon>
+		</Compile>
+		<Compile Update="Forms\FrmTaskManager.cs" />
+		<Compile Update="Forms\FrmTaskManager.Designer.cs">
+			<DependentUpon>FrmTaskManager.cs</DependentUpon>
+		</Compile>
+		<Compile Update="Forms\FrmVisitWebsite.cs" />
+		<Compile Update="Forms\FrmVisitWebsite.Designer.cs">
+			<DependentUpon>FrmVisitWebsite.cs</DependentUpon>
+		</Compile>
+		<Compile Update="Forms\FrmRemoteExecution.cs" />
+		<Compile Update="Forms\FrmRemoteExecution.Designer.cs">
+			<DependentUpon>FrmRemoteExecution.cs</DependentUpon>
+		</Compile>
+		<Compile Update="Properties\Resources.Designer.cs">
+		  <DesignTime>True</DesignTime>
+		  <AutoGen>True</AutoGen>
+		  <DependentUpon>Resources.resx</DependentUpon>
+		</Compile>
+		<EmbeddedResource Update="Forms\FrmAbout.resx">
+			<DependentUpon>FrmAbout.cs</DependentUpon>
+		</EmbeddedResource>
+		<EmbeddedResource Update="Forms\FrmCertificate.resx">
+			<DependentUpon>FrmCertificate.cs</DependentUpon>
+		</EmbeddedResource>
+		<EmbeddedResource Update="Forms\FrmStartupAdd.resx">
+			<DependentUpon>FrmStartupAdd.cs</DependentUpon>
+		</EmbeddedResource>
+		<EmbeddedResource Update="Forms\FrmBuilder.resx">
+			<DependentUpon>FrmBuilder.cs</DependentUpon>
+		</EmbeddedResource>
+		<EmbeddedResource Update="Forms\FrmConnections.resx">
+			<DependentUpon>FrmConnections.cs</DependentUpon>
+		</EmbeddedResource>
+		<EmbeddedResource Update="Forms\FrmFileManager.resx">
+			<DependentUpon>FrmFileManager.cs</DependentUpon>
+		</EmbeddedResource>
+		<EmbeddedResource Update="Forms\FrmMain.resx">
+			<DependentUpon>FrmMain.cs</DependentUpon>
+			<SubType>Designer</SubType>
+		</EmbeddedResource>
+		<EmbeddedResource Update="Forms\FrmRegistryEditor.resx">
+			<DependentUpon>FrmRegistryEditor.cs</DependentUpon>
+		</EmbeddedResource>
+		<EmbeddedResource Update="Forms\FrmRegValueEditBinary.resx">
+			<DependentUpon>FrmRegValueEditBinary.cs</DependentUpon>
+		</EmbeddedResource>
+		<EmbeddedResource Update="Forms\FrmRegValueEditMultiString.resx">
+			<DependentUpon>FrmRegValueEditMultiString.cs</DependentUpon>
+		</EmbeddedResource>
+		<EmbeddedResource Update="Forms\FrmRegValueEditString.resx">
+			<DependentUpon>FrmRegValueEditString.cs</DependentUpon>
+		</EmbeddedResource>
+		<EmbeddedResource Update="Forms\FrmRegValueEditWord.resx">
+			<DependentUpon>FrmRegValueEditWord.cs</DependentUpon>
+		</EmbeddedResource>
+		<EmbeddedResource Update="Forms\FrmRemoteDesktop.resx">
+			<DependentUpon>FrmRemoteDesktop.cs</DependentUpon>
+			<SubType>Designer</SubType>
+		</EmbeddedResource>
+		<EmbeddedResource Update="Forms\FrmRemoteShell.resx">
+			<DependentUpon>FrmRemoteShell.cs</DependentUpon>
+		</EmbeddedResource>
+		<EmbeddedResource Update="Forms\FrmSettings.resx">
+			<DependentUpon>FrmSettings.cs</DependentUpon>
+		</EmbeddedResource>
+		<EmbeddedResource Update="Forms\FrmShowMessagebox.resx">
+			<DependentUpon>FrmShowMessagebox.cs</DependentUpon>
+		</EmbeddedResource>
+		<EmbeddedResource Update="Forms\FrmStartupManager.resx">
+			<DependentUpon>FrmStartupManager.cs</DependentUpon>
+		</EmbeddedResource>
+		<EmbeddedResource Update="Forms\FrmSystemInformation.resx">
+			<DependentUpon>FrmSystemInformation.cs</DependentUpon>
+		</EmbeddedResource>
+		<EmbeddedResource Update="Forms\FrmTaskManager.resx">
+			<DependentUpon>FrmTaskManager.cs</DependentUpon>
+		</EmbeddedResource>
+		<EmbeddedResource Update="Forms\FrmVisitWebsite.resx">
+			<DependentUpon>FrmVisitWebsite.cs</DependentUpon>
+		</EmbeddedResource>
+		<EmbeddedResource Update="Forms\FrmRemoteExecution.resx">
+			<DependentUpon>FrmRemoteExecution.cs</DependentUpon>
+		</EmbeddedResource>
+		<EmbeddedResource Update="Properties\Resources.resx">
+			<Generator>ResXFileCodeGenerator</Generator>
+			<SubType>Designer</SubType>
+			<LastGenOutput>Resources.Designer.cs</LastGenOutput>
+		</EmbeddedResource>
+		<None Update="Properties\Settings.settings">
+			<Generator>SettingsSingleFileGenerator</Generator>
+			<LastGenOutput>Settings.Designer.cs</LastGenOutput>
+		</None>
+	</ItemGroup>
+		<ItemGroup>
+			<Content Include="Build\DeferredAssemblies\\*">
+				<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+			</Content>
+		</ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\Orion.Common\Orion.Common.csproj" />
+	</ItemGroup>
+	<!-- ===== Deferred assemblies payload =====
+	     Orion.Server downloads these DLLs to connected clients on demand
+	     (see Utilities\DeferredAssemblyProvider.cs), so the versions below must stay
+	     in sync with Orion.Client's PackageReferences.
+	     They are deliberately NOT committed as binaries: build restores them from
+	     NuGet via GeneratePathProperty and stages them into the output folder
+	     (target StageDeferredAssemblies). Nothing is copied into the source tree.
+	     Note: Orion.Client.csproj still writes a copy into Orion.Server\DeferredAssemblies\
+	     (target PrepareDeferredAssemblies). That folder is gitignored and no longer feeds
+	     the build - StageDeferredAssemblies is authoritative and additionally covers
+	     Gma.System.MouseKeyHook.dll, which the client-side globs never matched. -->
+	<ItemGroup>
+		<PackageReference Include="AForge" Version="2.2.5" ExcludeAssets="all" GeneratePathProperty="true" NoWarn="NU1701" />
+		<PackageReference Include="AForge.Video" Version="2.2.5" ExcludeAssets="all" GeneratePathProperty="true" NoWarn="NU1701" />
+		<PackageReference Include="AForge.Video.DirectShow" Version="2.2.5" ExcludeAssets="all" GeneratePathProperty="true" NoWarn="NU1701" />
+		<PackageReference Include="SharpDX" Version="4.2.0" ExcludeAssets="all" GeneratePathProperty="true" />
+		<PackageReference Include="SharpDX.D3DCompiler" Version="4.2.0" ExcludeAssets="all" GeneratePathProperty="true" />
+		<PackageReference Include="SharpDX.DXGI" Version="4.2.0" ExcludeAssets="all" GeneratePathProperty="true" />
+		<PackageReference Include="SharpDX.Direct2D1" Version="4.2.0" ExcludeAssets="all" GeneratePathProperty="true" />
+		<PackageReference Include="SharpDX.Direct3D11" Version="4.2.0" ExcludeAssets="all" GeneratePathProperty="true" />
+		<PackageReference Include="SharpDX.Mathematics" Version="4.2.0" ExcludeAssets="all" GeneratePathProperty="true" />
+	</ItemGroup>
+	<Target Name="StageDeferredAssemblies" AfterTargets="Build">
+		<ItemGroup>
+			<_DeferredAssembly Include="$(PkgAForge)\lib\AForge.dll">
+				<PayloadName>AForge.dll</PayloadName>
+			</_DeferredAssembly>
+			<_DeferredAssembly Include="$(PkgAForge_Video)\lib\AForge.Video.dll">
+				<PayloadName>AForge.Video.dll</PayloadName>
+			</_DeferredAssembly>
+			<_DeferredAssembly Include="$(PkgAForge_Video_DirectShow)\lib\AForge.Video.DirectShow.dll">
+				<PayloadName>AForge.Video.DirectShow.dll</PayloadName>
+			</_DeferredAssembly>
+			<_DeferredAssembly Include="$(PkgMouseKeyHook)\lib\net48\Gma.System.MouseKeyHook.dll">
+				<PayloadName>Gma.System.MouseKeyHook.dll</PayloadName>
+			</_DeferredAssembly>
+			<_DeferredAssembly Include="$(PkgNAudio_Core)\lib\netstandard2.0\NAudio.Core.dll">
+				<PayloadName>NAudio.Core.dll</PayloadName>
+			</_DeferredAssembly>
+			<_DeferredAssembly Include="$(PkgNAudio_Wasapi)\lib\netstandard2.0\NAudio.Wasapi.dll">
+				<PayloadName>NAudio.Wasapi.dll</PayloadName>
+			</_DeferredAssembly>
+			<_DeferredAssembly Include="$(PkgNAudio_WinForms)\lib\net472\NAudio.WinForms.dll">
+				<PayloadName>NAudio.WinForms.dll</PayloadName>
+			</_DeferredAssembly>
+			<_DeferredAssembly Include="$(PkgNAudio_WinMM)\lib\netstandard2.0\NAudio.WinMM.dll">
+				<PayloadName>NAudio.WinMM.dll</PayloadName>
+			</_DeferredAssembly>
+			<_DeferredAssembly Include="$(PkgSharpDX)\lib\net45\SharpDX.dll">
+				<PayloadName>SharpDX.dll</PayloadName>
+			</_DeferredAssembly>
+			<_DeferredAssembly Include="$(PkgSharpDX_D3DCompiler)\lib\net45\SharpDX.D3DCompiler.dll">
+				<PayloadName>SharpDX.D3DCompiler.dll</PayloadName>
+			</_DeferredAssembly>
+			<_DeferredAssembly Include="$(PkgSharpDX_DXGI)\lib\net45\SharpDX.DXGI.dll">
+				<PayloadName>SharpDX.DXGI.dll</PayloadName>
+			</_DeferredAssembly>
+			<_DeferredAssembly Include="$(PkgSharpDX_Direct2D1)\lib\net45\SharpDX.Direct2D1.dll">
+				<PayloadName>SharpDX.Direct2D1.dll</PayloadName>
+			</_DeferredAssembly>
+			<_DeferredAssembly Include="$(PkgSharpDX_Direct3D11)\lib\net45\SharpDX.Direct3D11.dll">
+				<PayloadName>SharpDX.Direct3D11.dll</PayloadName>
+			</_DeferredAssembly>
+			<_DeferredAssembly Include="$(PkgSharpDX_Mathematics)\lib\net45\SharpDX.Mathematics.dll">
+				<PayloadName>SharpDX.Mathematics.dll</PayloadName>
+			</_DeferredAssembly>
+		</ItemGroup>
+		<Error Text="Deferred assembly not found in the NuGet cache: %(_DeferredAssembly.Identity). Run 'dotnet restore Orion.Server.csproj' first." Condition="!Exists('%(_DeferredAssembly.Identity)')" />
+		<Copy SourceFiles="@(_DeferredAssembly)" DestinationFiles="@(_DeferredAssembly->'$(OutDir)DeferredAssemblies\%(PayloadName)')" SkipUnchangedFiles="true" />
+	</Target>
+	<ItemGroup>
+		<Reference Update="mscorlib">
+			<Private>False</Private>
+		</Reference>
+	</ItemGroup>
+	<ItemGroup>
+		<Reference Update="System">
+			<Private>False</Private>
+		</Reference>
+	</ItemGroup>
+	<ItemGroup>
+		<Reference Update="System.Core">
+			<Private>False</Private>
+		</Reference>
+	</ItemGroup>
+	<ItemGroup>
+		<Reference Update="System.Data">
+			<Private>False</Private>
+		</Reference>
+	</ItemGroup>
+	<ItemGroup>
+		<Reference Update="System.Drawing">
+			<Private>False</Private>
+		</Reference>
+	</ItemGroup>
+	<ItemGroup>
+		<Reference Update="System.IO.Compression.FileSystem">
+			<Private>False</Private>
+		</Reference>
+	</ItemGroup>
+	<ItemGroup>
+		<Reference Update="System.Numerics">
+			<Private>False</Private>
+		</Reference>
+	</ItemGroup>
+	<ItemGroup>
+		<Reference Update="System.Runtime.Serialization">
+			<Private>False</Private>
+		</Reference>
+	</ItemGroup>
+	<ItemGroup>
+		<Reference Update="System.Xml.Linq">
+			<Private>False</Private>
+		</Reference>
+	</ItemGroup>
+	<ItemGroup>
+		<EmbeddedResource Include="GeoIp\ipcountry.dat">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</EmbeddedResource>
+	</ItemGroup>
+</Project>

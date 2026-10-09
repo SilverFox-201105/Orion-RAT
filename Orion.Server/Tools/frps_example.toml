@@ -1,0 +1,23 @@
+# ============================================================
+# FRPS 服务端示例配置（部署在拥有公网 IP 的 VPS 上）
+# 用法： ./frps -c frps.toml
+# 下载： https://github.com/fatedier/frp/releases/download/v0.71.0/frp_0.71.0_linux_amd64.tar.gz
+# ============================================================
+
+# FRP 控制端口：控端(Orion.Server) 里的 frpc 通过这个端口连上来
+bindPort = 7000
+
+# 认证 Token：必须与控端设置里的 Token 完全一致，否则连不上
+auth.method = "token"
+auth.token = "请改成一段足够随机的字符串"
+
+# 可选：Web 管理面板，方便在浏览器查看连接状态
+# webServer.addr = "0.0.0.0"
+# webServer.port = 7500
+# webServer.user = "admin"
+# webServer.password = "请改密码"
+
+# 可选：限制可被控端申请的远端端口范围（按需开放）
+# allowPorts = [
+#   { start = 4782, end = 4790 }
+# ]

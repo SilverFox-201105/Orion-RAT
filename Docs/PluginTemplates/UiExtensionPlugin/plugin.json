@@ -1,0 +1,8 @@
+{
+  "name": "MyUiPlugin",
+  "version": "1.0.0",
+  "description": "UI 扩展插件模板：自定义页签 + 工具栏 + 菜单。",
+  "subfolder": "MyUiPlugin",
+  "server": [ "MyUiPlugin.dll" ],
+  "client": []
+}

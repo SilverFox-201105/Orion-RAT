@@ -1,0 +1,491 @@
+﻿using Orion.Server.Controls;
+
+namespace Orion.Server.Forms
+{
+    partial class FrmFileManager
+    {
+        /// <summary>
+        /// Required designer variable.
+        /// </summary>
+        private System.ComponentModel.IContainer components = null;
+
+        /// <summary>
+        /// Clean up any resources being used.
+        /// </summary>
+        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing && (components != null))
+            {
+                components.Dispose();
+            }
+            base.Dispose(disposing);
+        }
+
+        #region Windows Form Designer generated code
+
+        /// <summary>
+        /// Required method for Designer support - do not modify
+        /// the contents of this method with the code editor.
+        /// </summary>
+        private void InitializeComponent()
+        {
+            components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmFileManager));
+            contextMenuStripDirectory = new System.Windows.Forms.ContextMenuStrip(components);
+            downloadToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            uploadToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            lineToolStripMenuItem = new System.Windows.Forms.ToolStripSeparator();
+            zipFolderToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            executeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            renameToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            deleteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            line2ToolStripMenuItem = new System.Windows.Forms.ToolStripSeparator();
+            addToStartupToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            line3ToolStripMenuItem = new System.Windows.Forms.ToolStripSeparator();
+            refreshToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            openDirectoryInShellToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            imgListDirectory = new System.Windows.Forms.ImageList(components);
+            statusStrip = new System.Windows.Forms.StatusStrip();
+            stripLblStatus = new System.Windows.Forms.ToolStripStatusLabel();
+            contextMenuStripTransfers = new System.Windows.Forms.ContextMenuStrip(components);
+            cancelToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            toolStripMenuItem1 = new System.Windows.Forms.ToolStripSeparator();
+            clearToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            imgListTransfers = new System.Windows.Forms.ImageList(components);
+            TabControlFileManager = new DotNetBarTabControl();
+            tabFileExplorer = new System.Windows.Forms.TabPage();
+            btnRefresh = new System.Windows.Forms.Button();
+            lblPath = new System.Windows.Forms.Label();
+            txtPath = new System.Windows.Forms.TextBox();
+            lstDirectory = new AeroListView();
+            hName = new System.Windows.Forms.ColumnHeader();
+            hSize = new System.Windows.Forms.ColumnHeader();
+            hType = new System.Windows.Forms.ColumnHeader();
+            lblDrive = new System.Windows.Forms.Label();
+            cmbDrives = new System.Windows.Forms.ComboBox();
+            tabTransfers = new System.Windows.Forms.TabPage();
+            btnOpenDLFolder = new System.Windows.Forms.Button();
+            lstTransfers = new AeroListView();
+            hID = new System.Windows.Forms.ColumnHeader();
+            hTransferType = new System.Windows.Forms.ColumnHeader();
+            hStatus = new System.Windows.Forms.ColumnHeader();
+            hFilename = new System.Windows.Forms.ColumnHeader();
+            contextMenuStripDirectory.SuspendLayout();
+            statusStrip.SuspendLayout();
+            contextMenuStripTransfers.SuspendLayout();
+            TabControlFileManager.SuspendLayout();
+            tabFileExplorer.SuspendLayout();
+            tabTransfers.SuspendLayout();
+            SuspendLayout();
+            // 
+            // contextMenuStripDirectory
+            // 
+            contextMenuStripDirectory.ImageScalingSize = new System.Drawing.Size(20, 20);
+            contextMenuStripDirectory.Items.AddRange(new System.Windows.Forms.ToolStripItem[] { downloadToolStripMenuItem, uploadToolStripMenuItem, lineToolStripMenuItem, zipFolderToolStripMenuItem, executeToolStripMenuItem, renameToolStripMenuItem, deleteToolStripMenuItem, line2ToolStripMenuItem, addToStartupToolStripMenuItem, line3ToolStripMenuItem, refreshToolStripMenuItem, openDirectoryInShellToolStripMenuItem });
+            contextMenuStripDirectory.Name = "ctxtMenu";
+            contextMenuStripDirectory.Size = new System.Drawing.Size(233, 256);
+            // 
+            // downloadToolStripMenuItem
+            // 
+            downloadToolStripMenuItem.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, 0);
+            downloadToolStripMenuItem.Image = (System.Drawing.Image)resources.GetObject("downloadToolStripMenuItem.Image");
+            downloadToolStripMenuItem.Name = "downloadToolStripMenuItem";
+            downloadToolStripMenuItem.Size = new System.Drawing.Size(232, 26);
+            downloadToolStripMenuItem.Text = "下载";
+            downloadToolStripMenuItem.Click += downloadToolStripMenuItem_Click;
+            // 
+            // uploadToolStripMenuItem
+            // 
+            uploadToolStripMenuItem.Image = (System.Drawing.Image)resources.GetObject("uploadToolStripMenuItem.Image");
+            uploadToolStripMenuItem.Name = "uploadToolStripMenuItem";
+            uploadToolStripMenuItem.Size = new System.Drawing.Size(232, 26);
+            uploadToolStripMenuItem.Text = "上传";
+            uploadToolStripMenuItem.Click += uploadToolStripMenuItem_Click;
+            // 
+            // lineToolStripMenuItem
+            // 
+            lineToolStripMenuItem.Name = "lineToolStripMenuItem";
+            lineToolStripMenuItem.Size = new System.Drawing.Size(229, 6);
+            // 
+            // zipFolderToolStripMenuItem
+            // 
+            zipFolderToolStripMenuItem.Image = Properties.Resources.zipfolder;
+            zipFolderToolStripMenuItem.Name = "zipFolderToolStripMenuItem";
+            zipFolderToolStripMenuItem.Size = new System.Drawing.Size(232, 26);
+            zipFolderToolStripMenuItem.Text = "压缩文件夹";
+            zipFolderToolStripMenuItem.Click += zipFolderToolStripMenuItem_Click;
+            // 
+            // executeToolStripMenuItem
+            // 
+            executeToolStripMenuItem.Image = (System.Drawing.Image)resources.GetObject("executeToolStripMenuItem.Image");
+            executeToolStripMenuItem.Name = "executeToolStripMenuItem";
+            executeToolStripMenuItem.Size = new System.Drawing.Size(232, 26);
+            executeToolStripMenuItem.Text = "执行";
+            executeToolStripMenuItem.Click += executeToolStripMenuItem_Click;
+            // 
+            // renameToolStripMenuItem
+            // 
+            renameToolStripMenuItem.Image = Properties.Resources.textfield_rename;
+            renameToolStripMenuItem.Name = "renameToolStripMenuItem";
+            renameToolStripMenuItem.Size = new System.Drawing.Size(232, 26);
+            renameToolStripMenuItem.Text = "重命名";
+            renameToolStripMenuItem.Click += renameToolStripMenuItem_Click;
+            // 
+            // deleteToolStripMenuItem
+            // 
+            deleteToolStripMenuItem.Image = Properties.Resources.delete;
+            deleteToolStripMenuItem.Name = "deleteToolStripMenuItem";
+            deleteToolStripMenuItem.Size = new System.Drawing.Size(232, 26);
+            deleteToolStripMenuItem.Text = "删除";
+            deleteToolStripMenuItem.Click += deleteToolStripMenuItem_Click;
+            // 
+            // line2ToolStripMenuItem
+            // 
+            line2ToolStripMenuItem.Name = "line2ToolStripMenuItem";
+            line2ToolStripMenuItem.Size = new System.Drawing.Size(229, 6);
+            // 
+            // addToStartupToolStripMenuItem
+            // 
+            addToStartupToolStripMenuItem.Image = Properties.Resources.application_add;
+            addToStartupToolStripMenuItem.Name = "addToStartupToolStripMenuItem";
+            addToStartupToolStripMenuItem.Size = new System.Drawing.Size(232, 26);
+            addToStartupToolStripMenuItem.Text = "添加到启动项";
+            addToStartupToolStripMenuItem.Click += addToStartupToolStripMenuItem_Click;
+            // 
+            // line3ToolStripMenuItem
+            // 
+            line3ToolStripMenuItem.Name = "line3ToolStripMenuItem";
+            line3ToolStripMenuItem.Size = new System.Drawing.Size(229, 6);
+            // 
+            // refreshToolStripMenuItem
+            // 
+            refreshToolStripMenuItem.Image = Properties.Resources.refresh;
+            refreshToolStripMenuItem.Name = "refreshToolStripMenuItem";
+            refreshToolStripMenuItem.Size = new System.Drawing.Size(232, 26);
+            refreshToolStripMenuItem.Text = "刷新";
+            refreshToolStripMenuItem.Click += refreshToolStripMenuItem_Click;
+            // 
+            // openDirectoryInShellToolStripMenuItem
+            // 
+            openDirectoryInShellToolStripMenuItem.Image = Properties.Resources.terminal;
+            openDirectoryInShellToolStripMenuItem.Name = "openDirectoryInShellToolStripMenuItem";
+            openDirectoryInShellToolStripMenuItem.Size = new System.Drawing.Size(232, 26);
+            openDirectoryInShellToolStripMenuItem.Text = "在远程终端中打开目录";
+            openDirectoryInShellToolStripMenuItem.Click += openDirectoryToolStripMenuItem_Click;
+            // 
+            // imgListDirectory
+            // 
+            imgListDirectory.ColorDepth = System.Windows.Forms.ColorDepth.Depth8Bit;
+            imgListDirectory.ImageStream = (System.Windows.Forms.ImageListStreamer)resources.GetObject("imgListDirectory.ImageStream");
+            imgListDirectory.TransparentColor = System.Drawing.Color.Transparent;
+            imgListDirectory.Images.SetKeyName(0, "back.png");
+            imgListDirectory.Images.SetKeyName(1, "folder.png");
+            imgListDirectory.Images.SetKeyName(2, "file.png");
+            imgListDirectory.Images.SetKeyName(3, "application.png");
+            imgListDirectory.Images.SetKeyName(4, "text.png");
+            imgListDirectory.Images.SetKeyName(5, "archive.png");
+            imgListDirectory.Images.SetKeyName(6, "word.png");
+            imgListDirectory.Images.SetKeyName(7, "pdf.png");
+            imgListDirectory.Images.SetKeyName(8, "image.png");
+            imgListDirectory.Images.SetKeyName(9, "movie.png");
+            imgListDirectory.Images.SetKeyName(10, "music.png");
+            // 
+            // statusStrip
+            // 
+            statusStrip.ImageScalingSize = new System.Drawing.Size(20, 20);
+            statusStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] { stripLblStatus });
+            statusStrip.Location = new System.Drawing.Point(0, 452);
+            statusStrip.Name = "statusStrip";
+            statusStrip.Size = new System.Drawing.Size(858, 26);
+            statusStrip.TabIndex = 3;
+            statusStrip.Text = "statusStrip1";
+            // 
+            // stripLblStatus
+            // 
+            stripLblStatus.Name = "stripLblStatus";
+            stripLblStatus.Size = new System.Drawing.Size(171, 20);
+            stripLblStatus.Text = "状态：正在加载驱动器...";
+            // 
+            // contextMenuStripTransfers
+            // 
+            contextMenuStripTransfers.ImageScalingSize = new System.Drawing.Size(20, 20);
+            contextMenuStripTransfers.Items.AddRange(new System.Windows.Forms.ToolStripItem[] { cancelToolStripMenuItem, toolStripMenuItem1, clearToolStripMenuItem });
+            contextMenuStripTransfers.Name = "ctxtMenu2";
+            contextMenuStripTransfers.Size = new System.Drawing.Size(173, 62);
+            // 
+            // cancelToolStripMenuItem
+            // 
+            cancelToolStripMenuItem.Image = Properties.Resources.cancel;
+            cancelToolStripMenuItem.Name = "cancelToolStripMenuItem";
+            cancelToolStripMenuItem.Size = new System.Drawing.Size(172, 26);
+            cancelToolStripMenuItem.Text = "取消";
+            cancelToolStripMenuItem.Click += cancelToolStripMenuItem_Click;
+            // 
+            // toolStripMenuItem1
+            // 
+            toolStripMenuItem1.Name = "toolStripMenuItem1";
+            toolStripMenuItem1.Size = new System.Drawing.Size(169, 6);
+            // 
+            // clearToolStripMenuItem
+            // 
+            clearToolStripMenuItem.Image = Properties.Resources.broom;
+            clearToolStripMenuItem.Name = "clearToolStripMenuItem";
+            clearToolStripMenuItem.Size = new System.Drawing.Size(172, 26);
+            clearToolStripMenuItem.Text = "清除传输记录";
+            clearToolStripMenuItem.Click += clearToolStripMenuItem_Click;
+            // 
+            // imgListTransfers
+            // 
+            imgListTransfers.ColorDepth = System.Windows.Forms.ColorDepth.Depth8Bit;
+            imgListTransfers.ImageStream = (System.Windows.Forms.ImageListStreamer)resources.GetObject("imgListTransfers.ImageStream");
+            imgListTransfers.TransparentColor = System.Drawing.Color.Transparent;
+            imgListTransfers.Images.SetKeyName(0, "cancel.png");
+            imgListTransfers.Images.SetKeyName(1, "done.png");
+            // 
+            // TabControlFileManager
+            // 
+            TabControlFileManager.Alignment = System.Windows.Forms.TabAlignment.Left;
+            TabControlFileManager.Controls.Add(tabFileExplorer);
+            TabControlFileManager.Controls.Add(tabTransfers);
+            TabControlFileManager.Dock = System.Windows.Forms.DockStyle.Fill;
+            TabControlFileManager.ItemSize = new System.Drawing.Size(44, 136);
+            TabControlFileManager.Location = new System.Drawing.Point(0, 0);
+            TabControlFileManager.Multiline = true;
+            TabControlFileManager.Name = "TabControlFileManager";
+            TabControlFileManager.SelectedIndex = 0;
+            TabControlFileManager.Size = new System.Drawing.Size(858, 452);
+            TabControlFileManager.SizeMode = System.Windows.Forms.TabSizeMode.Fixed;
+            TabControlFileManager.TabIndex = 5;
+            // 
+            // tabFileExplorer
+            // 
+            tabFileExplorer.BackColor = System.Drawing.SystemColors.Control;
+            tabFileExplorer.Controls.Add(btnRefresh);
+            tabFileExplorer.Controls.Add(lblPath);
+            tabFileExplorer.Controls.Add(txtPath);
+            tabFileExplorer.Controls.Add(lstDirectory);
+            tabFileExplorer.Controls.Add(lblDrive);
+            tabFileExplorer.Controls.Add(cmbDrives);
+            tabFileExplorer.Location = new System.Drawing.Point(140, 4);
+            tabFileExplorer.Name = "tabFileExplorer";
+            tabFileExplorer.Padding = new System.Windows.Forms.Padding(3);
+            tabFileExplorer.Size = new System.Drawing.Size(714, 444);
+            tabFileExplorer.TabIndex = 0;
+            tabFileExplorer.Text = "文件浏览器";
+            // 
+            // btnRefresh
+            // 
+            btnRefresh.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
+            btnRefresh.FlatAppearance.BorderSize = 0;
+            btnRefresh.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            btnRefresh.Image = Properties.Resources.refresh;
+            btnRefresh.Location = new System.Drawing.Point(680, 1);
+            btnRefresh.Name = "btnRefresh";
+            btnRefresh.Size = new System.Drawing.Size(28, 28);
+            btnRefresh.TabIndex = 5;
+            btnRefresh.UseVisualStyleBackColor = true;
+            btnRefresh.Click += btnRefresh_Click;
+            // 
+            // lblPath
+            // 
+            lblPath.AutoSize = true;
+            lblPath.Location = new System.Drawing.Point(286, 7);
+            lblPath.Name = "lblPath";
+            lblPath.Size = new System.Drawing.Size(68, 19);
+            lblPath.TabIndex = 4;
+            lblPath.Text = "远程路径:";
+            // 
+            // txtPath
+            // 
+            txtPath.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
+            txtPath.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            txtPath.Location = new System.Drawing.Point(360, 4);
+            txtPath.Name = "txtPath";
+            txtPath.ReadOnly = true;
+            txtPath.Size = new System.Drawing.Size(314, 26);
+            txtPath.TabIndex = 3;
+            txtPath.Text = "\\";
+            // 
+            // lstDirectory
+            // 
+            lstDirectory.AllowDrop = true;
+            lstDirectory.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
+            lstDirectory.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] { hName, hSize, hType });
+            lstDirectory.ContextMenuStrip = contextMenuStripDirectory;
+            lstDirectory.FullRowSelect = true;
+            lstDirectory.Location = new System.Drawing.Point(8, 35);
+            lstDirectory.Name = "lstDirectory";
+            lstDirectory.Size = new System.Drawing.Size(700, 402);
+            lstDirectory.SmallImageList = imgListDirectory;
+            lstDirectory.TabIndex = 2;
+            lstDirectory.UseCompatibleStateImageBehavior = false;
+            lstDirectory.View = System.Windows.Forms.View.Details;
+            lstDirectory.ColumnClick += lstDirectory_ColumnClick;
+            lstDirectory.DragDrop += lstDirectory_DragDrop;
+            lstDirectory.DragEnter += lstDirectory_DragEnter;
+            lstDirectory.DoubleClick += lstDirectory_DoubleClick;
+            // 
+            // hName
+            // 
+            hName.Text = "名称";
+            hName.Width = 360;
+            // 
+            // hSize
+            // 
+            hSize.Text = "大小";
+            hSize.Width = 125;
+            // 
+            // hType
+            // 
+            hType.Text = "类型";
+            hType.Width = 211;
+            // 
+            // lblDrive
+            // 
+            lblDrive.AutoSize = true;
+            lblDrive.Location = new System.Drawing.Point(8, 7);
+            lblDrive.Name = "lblDrive";
+            lblDrive.Size = new System.Drawing.Size(54, 19);
+            lblDrive.TabIndex = 0;
+            lblDrive.Text = "驱动器:";
+            lblDrive.Click += lblDrive_Click;
+            // 
+            // cmbDrives
+            // 
+            cmbDrives.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            cmbDrives.FormattingEnabled = true;
+            cmbDrives.Location = new System.Drawing.Point(68, 3);
+            cmbDrives.Name = "cmbDrives";
+            cmbDrives.Size = new System.Drawing.Size(190, 27);
+            cmbDrives.TabIndex = 1;
+            cmbDrives.SelectedIndexChanged += cmbDrives_SelectedIndexChanged;
+            // 
+            // tabTransfers
+            // 
+            tabTransfers.BackColor = System.Drawing.SystemColors.Control;
+            tabTransfers.Controls.Add(btnOpenDLFolder);
+            tabTransfers.Controls.Add(lstTransfers);
+            tabTransfers.Location = new System.Drawing.Point(140, 4);
+            tabTransfers.Name = "tabTransfers";
+            tabTransfers.Padding = new System.Windows.Forms.Padding(3);
+            tabTransfers.Size = new System.Drawing.Size(714, 444);
+            tabTransfers.TabIndex = 1;
+            tabTransfers.Text = "传输";
+            // 
+            // btnOpenDLFolder
+            // 
+            btnOpenDLFolder.Location = new System.Drawing.Point(8, 3);
+            btnOpenDLFolder.Name = "btnOpenDLFolder";
+            btnOpenDLFolder.Size = new System.Drawing.Size(145, 29);
+            btnOpenDLFolder.TabIndex = 0;
+            btnOpenDLFolder.Text = "打开下载文件夹(&O)";
+            btnOpenDLFolder.UseVisualStyleBackColor = true;
+            btnOpenDLFolder.Click += btnOpenDLFolder_Click;
+            // 
+            // lstTransfers
+            // 
+            lstTransfers.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
+            lstTransfers.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] { hID, hTransferType, hStatus, hFilename });
+            lstTransfers.ContextMenuStrip = contextMenuStripTransfers;
+            lstTransfers.FullRowSelect = true;
+            lstTransfers.Location = new System.Drawing.Point(8, 35);
+            lstTransfers.Name = "lstTransfers";
+            lstTransfers.Size = new System.Drawing.Size(698, 403);
+            lstTransfers.SmallImageList = imgListTransfers;
+            lstTransfers.TabIndex = 1;
+            lstTransfers.UseCompatibleStateImageBehavior = false;
+            lstTransfers.View = System.Windows.Forms.View.Details;
+            // 
+            // hID
+            // 
+            hID.Text = "ID";
+            hID.Width = 128;
+            // 
+            // hTransferType
+            // 
+            hTransferType.Text = "传输类型";
+            hTransferType.Width = 120;
+            // 
+            // hStatus
+            // 
+            hStatus.Text = "状态";
+            hStatus.Width = 173;
+            // 
+            // hFilename
+            // 
+            hFilename.Text = "文件名";
+            hFilename.Width = 273;
+            // 
+            // FrmFileManager
+            // 
+            AutoScaleDimensions = new System.Drawing.SizeF(120F, 120F);
+            AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
+            ClientSize = new System.Drawing.Size(858, 478);
+            Controls.Add(TabControlFileManager);
+            Controls.Add(statusStrip);
+            Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 0);
+            Icon = (System.Drawing.Icon)resources.GetObject("$this.Icon");
+            KeyPreview = true;
+            MinimumSize = new System.Drawing.Size(663, 377);
+            Name = "FrmFileManager";
+            StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+            Text = "文件管理器 []";
+            FormClosing += FrmFileManager_FormClosing;
+            Load += FrmFileManager_Load;
+            KeyDown += FrmFileManager_KeyDown;
+            contextMenuStripDirectory.ResumeLayout(false);
+            statusStrip.ResumeLayout(false);
+            statusStrip.PerformLayout();
+            contextMenuStripTransfers.ResumeLayout(false);
+            TabControlFileManager.ResumeLayout(false);
+            tabFileExplorer.ResumeLayout(false);
+            tabFileExplorer.PerformLayout();
+            tabTransfers.ResumeLayout(false);
+            ResumeLayout(false);
+            PerformLayout();
+        }
+
+        #endregion
+
+        private System.Windows.Forms.Label lblDrive;
+        private System.Windows.Forms.ImageList imgListDirectory;
+        private System.Windows.Forms.ColumnHeader hName;
+        private System.Windows.Forms.ColumnHeader hSize;
+        private System.Windows.Forms.ColumnHeader hType;
+        private System.Windows.Forms.ContextMenuStrip contextMenuStripDirectory;
+        private System.Windows.Forms.ToolStripMenuItem downloadToolStripMenuItem;
+        private System.Windows.Forms.Button btnOpenDLFolder;
+        private DotNetBarTabControl TabControlFileManager;
+        private System.Windows.Forms.TabPage tabFileExplorer;
+        private System.Windows.Forms.TabPage tabTransfers;
+        private System.Windows.Forms.ColumnHeader hStatus;
+        private System.Windows.Forms.ColumnHeader hFilename;
+        private System.Windows.Forms.ColumnHeader hID;
+        private System.Windows.Forms.ImageList imgListTransfers;
+        private System.Windows.Forms.ToolStripMenuItem executeToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem refreshToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator line3ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator lineToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem renameToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem deleteToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator line2ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem addToStartupToolStripMenuItem;
+        private System.Windows.Forms.ContextMenuStrip contextMenuStripTransfers;
+        private System.Windows.Forms.ToolStripMenuItem cancelToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem openDirectoryInShellToolStripMenuItem;
+        private System.Windows.Forms.ComboBox cmbDrives;
+        private AeroListView lstDirectory;
+        private AeroListView lstTransfers;
+        private System.Windows.Forms.StatusStrip statusStrip;
+        private System.Windows.Forms.ToolStripMenuItem clearToolStripMenuItem;
+        private System.Windows.Forms.ToolStripStatusLabel stripLblStatus;
+        private System.Windows.Forms.Label lblPath;
+        private System.Windows.Forms.TextBox txtPath;
+        private System.Windows.Forms.Button btnRefresh;
+        private System.Windows.Forms.ToolStripMenuItem uploadToolStripMenuItem;
+        private System.Windows.Forms.ColumnHeader hTransferType;
+        private System.Windows.Forms.ToolStripSeparator toolStripMenuItem1;
+        private System.Windows.Forms.ToolStripMenuItem zipFolderToolStripMenuItem;
+    }
+}

@@ -1,0 +1,24 @@
+﻿using Orion.Server.Enums;
+
+namespace Orion.Server.Models
+{
+    public class BuildOptions
+    {
+        public bool Install { get; set; }
+        public bool Startup { get; set; }
+        public string Tag { get; set; }
+        public string Mutex { get; set; }
+        public string RawHosts { get; set; }
+        public string IconPath { get; set; }
+        public string Version { get; set; }
+        public string InstallSub { get; set; }
+        public string InstallName { get; set; }
+        public string StartupName { get; set; }
+        public string OutputPath { get; set; }
+        public int Delay { get; set; }
+        public short InstallPath { get; set; }
+        public string[] AssemblyInformation { get; set; }
+        public bool Pastebin { get; set; }
+        public TargetArchitecture TargetArchitecture { get; set; }
+    }
+}

@@ -1,0 +1,8 @@
+{
+  "name": "MyServerPlugin",
+  "version": "1.0.0",
+  "description": "服务端插件模板：加菜单、读客户端列表。",
+  "subfolder": "MyServerPlugin",
+  "server": [ "MyServerPlugin.dll" ],
+  "client": []
+}

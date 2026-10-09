@@ -1,0 +1,44 @@
+﻿using System.ComponentModel;
+using System.Drawing;
+using System.Windows.Forms;
+
+namespace Orion.Server.Controls
+{
+    public class Line : Control
+    {
+        public enum Alignment
+        {
+            Horizontal,
+            Vertical
+        }
+
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        public Alignment LineAlignment { get; set; }
+
+        public Line()
+        {
+            this.TabStop = false;
+            this.BackColor = GetBackgroundColor();
+        }
+
+        protected override void OnPaint(PaintEventArgs e)
+        {
+            base.OnPaint(e);
+            e.Graphics.DrawLine(new Pen(new SolidBrush(Color.LightGray)), new Point(5, 5),
+                LineAlignment == Alignment.Horizontal ? new Point(500, 5) : new Point(5, 500));
+        }
+
+        protected override void OnPaintBackground(PaintEventArgs e)
+        {
+            using (var brush = new SolidBrush(GetBackgroundColor()))
+            {
+                e.Graphics.FillRectangle(brush, ClientRectangle);
+            }
+        }
+
+        private Color GetBackgroundColor()
+        {
+            return Color.FromArgb(43, 43, 43);
+        }
+    }
+}

@@ -1,0 +1,14 @@
+﻿using System;
+
+namespace Orion.Server.Plugins
+{
+    public interface IServerPlugin
+    {
+        string Name { get; }
+        Version Version { get; }
+        string Description { get; }
+        string Type { get; }
+        void Initialize(IServerContext context);
+        bool AutoLoadToClients => false;
+    }
+}
