@@ -24,7 +24,7 @@ namespace Orion.Server.Models
         public bool InstallClient { get; set; } = false;
 
         [JsonProperty("installName")]
-        public string InstallName { get; set; } = "Client";
+        public string InstallName { get; set; } = "Orion";
 
         [JsonProperty("installPath")]
         public short InstallPath { get; set; } = 1;

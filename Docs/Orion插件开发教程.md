@@ -1,4 +1,4 @@
-# Orion Tactical 插件开发指南
+# Orion 插件开发指南
 
 > 框架：服务端 **net9.0-windows** ｜ 客户端 **net48** ｜ Orion.Common 双目标
 > 本文签名取自当前源码。示例均为可直接抄的最小骨架。

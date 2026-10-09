@@ -66,7 +66,7 @@
             lblDescription.Name = "lblDescription";
             lblDescription.Size = new System.Drawing.Size(485, 15);
             lblDescription.TabIndex = 0;
-            lblDescription.Text = "要使用 Orion Tactical，请创建新证书或从之前的安装导入已有证书。";
+            lblDescription.Text = "要使用 Orion，请创建新证书或从之前的安装导入已有证书。";
             // 
             // txtDetails
             // 
@@ -139,7 +139,7 @@
             MinimizeBox = false;
             Name = "FrmCertificate";
             StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            Text = "Orion Tactical - 证书向导";
+            Text = "Orion - 证书向导";
             Load += FrmCertificate_Load;
             ResumeLayout(false);
             PerformLayout();

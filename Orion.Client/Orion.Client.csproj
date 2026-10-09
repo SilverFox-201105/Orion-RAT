@@ -2,7 +2,7 @@
 	<PropertyGroup>
 		<TargetFramework>net48</TargetFramework>
 		<OutputType>WinExe</OutputType>
-		<AssemblyName>Client</AssemblyName>
+		<AssemblyName>Orion.Client</AssemblyName>
 		<UseWindowsForms>true</UseWindowsForms>
 		<GenerateAssemblyInfo>false</GenerateAssemblyInfo>
 		<ForceDesignerDpiUnaware>true</ForceDesignerDpiUnaware>

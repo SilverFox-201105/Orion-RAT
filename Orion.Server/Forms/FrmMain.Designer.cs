@@ -892,7 +892,7 @@ namespace Orion.Server.Forms
             // notifyIcon
             // 
             notifyIcon.Icon = (Icon)resources.GetObject("notifyIcon.Icon");
-            notifyIcon.Text = "Orion Tactical";
+            notifyIcon.Text = "Orion";
             notifyIcon.Visible = true;
             notifyIcon.MouseDoubleClick += notifyIcon_MouseDoubleClick;
             // 
@@ -1731,7 +1731,7 @@ namespace Orion.Server.Forms
             MinimumSize = new Size(680, 415);
             Name = "FrmMain";
             StartPosition = FormStartPosition.CenterScreen;
-            Text = "Orion Tactical - 已连接：0";
+            Text = "Orion - 已连接：0";
             FormClosing += FrmMain_FormClosing;
             Load += FrmMain_Load;
             contextMenuStrip.ResumeLayout(false);

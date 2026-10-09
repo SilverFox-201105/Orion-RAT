@@ -2,7 +2,7 @@
 {
     public static class ServerVersion
     {
-        public const string AppName = "Orion Tactical";
+        public const string AppName = "Orion";
 
         public const string Current = "6.0.0";
 

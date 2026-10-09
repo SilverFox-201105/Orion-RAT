@@ -66,7 +66,7 @@
             lblTitle.Name = "lblTitle";
             lblTitle.Size = new System.Drawing.Size(177, 37);
             lblTitle.TabIndex = 0;
-            lblTitle.Text = "Orion Tactical";
+            lblTitle.Text = "Orion";
             // 
             // lblVersion
             // 
@@ -219,7 +219,7 @@
             MinimizeBox = false;
             Name = "FrmAbout";
             StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            Text = "Orion Tactical - 关于";
+            Text = "Orion - 关于";
             Load += FrmAbout_Load;
             ((System.ComponentModel.ISupportInitialize)picIcon).EndInit();
             ResumeLayout(false);

@@ -2,7 +2,7 @@
 ## 源码可得 · 禁止商用 · 禁止二次开发与再分发
 
 发布日期：2026-10-10
-版权所有 (c) 2026 Silver Fox（Orion Tactical）
+版权所有 (c) 2026 Silver Fox（Orion）
 
 > 本许可为「源码可得（Source-Available）」许可，**不是** OSI 认证的开源许可（Open Source License）。
 > 源码公开的目的是为了学习、审计与研究，**不等于**授予开源再分发或商业使用的权利。
