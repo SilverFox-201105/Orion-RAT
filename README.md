@@ -30,9 +30,10 @@ Orion 是一款采用 C# 编写的轻量级远程管理工具，可用于远程�
 
 ## 📸 截图
 
-| **远程桌面** | **文件管理器** | **远程命令行** |
-| ------------ | -------------- | -------------- |
-| Remote Desktop | File Manager | Remote Shell |
+| **主控制面板** | **远程桌面** | **文件管理器** |
+| -------------- | ------------ | -------------- |
+| ![主控制面板](Image/main-dashboard.jpg) | ![远程桌面](Image/remote-desktop.jpg) | ![文件管理器](Image/file-manager.png) |
+| Main Dashboard | Remote Desktop | File Manager |
 
 ---
 
