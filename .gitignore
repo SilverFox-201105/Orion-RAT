@@ -81,3 +81,6 @@ FRPC/
 # ===== Diagnostic scratch (frp source dumps, capture scripts, test binaries) =====
 # Created during FRP protocol investigation; not part of the project.
 _src_ref/
+
+# WorkBuddy 内部数据（含 AI 工作日志/记忆，禁止入库）
+.workbuddy/
