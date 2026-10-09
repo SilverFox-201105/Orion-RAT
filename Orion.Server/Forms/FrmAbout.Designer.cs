@@ -112,9 +112,9 @@
             lblLicense.ForeColor = System.Drawing.SystemColors.Control;
             lblLicense.Location = new System.Drawing.Point(12, 247);
             lblLicense.Name = "lblLicense";
-            lblLicense.Size = new System.Drawing.Size(46, 15);
+            lblLicense.Size = new System.Drawing.Size(76, 15);
             lblLicense.TabIndex = 6;
-            lblLicense.Text = "许可证";
+            lblLicense.Text = "源代码许可";
             // 
             // lnkTelegram
             // 

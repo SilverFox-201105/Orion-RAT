@@ -12,7 +12,7 @@ namespace Orion.Server.Forms
 {
     public partial class FrmAbout : Form
     {
-        // 闭源商业分发：不再提供公开仓库入口
+        // 官方社区入口（公开仓库仅发布源码，不提供预编译二进制）
         private readonly string _telegramUrl = @"https://t.me/+h7gwb2c5NaM0M2M5";
 
         // 与窗体客户区等尺寸的背景缓存（已按 BackgroundImageLayout 完整渲染），
@@ -375,7 +375,11 @@ namespace Orion.Server.Forms
         private void button1_Click(object sender, EventArgs e)
         {
             string disclaimer =
-                "本软件仅用于学习和研究目的。\n" +
+                "本软件以「源代码可见」方式发布，仅供学习与研究目的。\n\n" +
+                "许可摘要（完整条款见 LICENSE.md）：\n" +
+                "· 允许阅读、学习、审计，并为个人非商业目的在本地编译运行\n" +
+                "· 禁止任何商业用途（销售、SaaS、付费服务、企业内部生产运营）\n" +
+                "· 禁止二次开发与再分发（fork、镜像、修改版发布）\n\n" +
                 "未经授权在非本人拥有或未明确允许的计算机上使用属于违法行为。\n\n" +
                 "使用本软件即表示你需对自己的行为承担全部责任。";
 
