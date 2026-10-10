@@ -858,7 +858,7 @@ namespace Orion.Server.Forms
                     RefreshFrpcBinaryLabel();
                     var v = Frp.FrpTunnelManager.Instance.GetInstalledVersion();
                     MessageBox.Show(this,
-                        $"frpc.exe 安装成功（版本 {v}）。\n它不会进 git 仓库，仅保存在本地 FRPC/ 目录。",
+                        $"frpc.exe 安装成功（版本 {v}）。\n已解压到 FRPC/ 目录。",
                         "安装成功", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     return Frp.FrpTunnelManager.Instance.IsBinaryAvailable;
                 }
