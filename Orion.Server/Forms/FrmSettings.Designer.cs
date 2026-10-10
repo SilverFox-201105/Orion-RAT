@@ -257,7 +257,7 @@
             // lblMultiPorts
             // 
             lblMultiPorts.AutoSize = true;
-            lblMultiPorts.Location = new System.Drawing.Point(11, 39);
+            lblMultiPorts.Location = new System.Drawing.Point(11, 27);
             lblMultiPorts.Name = "lblMultiPorts";
             lblMultiPorts.Size = new System.Drawing.Size(88, 13);
             lblMultiPorts.TabIndex = 20;
@@ -267,7 +267,7 @@
             // 
             txtMultiPorts.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
             txtMultiPorts.ForeColor = System.Drawing.Color.Gray;
-            txtMultiPorts.Location = new System.Drawing.Point(110, 36);
+            txtMultiPorts.Location = new System.Drawing.Point(111, 24);
             txtMultiPorts.Name = "txtMultiPorts";
             txtMultiPorts.Size = new System.Drawing.Size(206, 22);
             txtMultiPorts.TabIndex = 21;
@@ -428,7 +428,7 @@
             // chkFrpEnabled
             // 
             chkFrpEnabled.AutoSize = true;
-            chkFrpEnabled.Location = new System.Drawing.Point(12, 22);
+            chkFrpEnabled.Location = new System.Drawing.Point(12, 21);
             chkFrpEnabled.Name = "chkFrpEnabled";
             chkFrpEnabled.Size = new System.Drawing.Size(123, 17);
             chkFrpEnabled.TabIndex = 0;
