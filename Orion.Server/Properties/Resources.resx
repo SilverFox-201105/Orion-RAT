@@ -434,30 +434,13 @@
     <value>..\Resources\mouse.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="License" xml:space="preserve">
-    <value>Orion Source-Available License v1.0（源代码可见 · 禁止商用 · 禁止二次开发）
+    <value>Orion 采用 GNU 通用公共许可证第 3 版（GPL-3.0，自由软件 / 免费开源）。
 
-Copyright (c) 2026 BruceLi20110501. 保留所有权利。
+Copyright (c) 2026 SilverFox-201105. 保留所有权利。
 
-本软件以「源代码可见」方式发布：你可以阅读、学习、审计并为个人非商业目的在本地编译运行。本许可并非 OSI 认证的开源许可，尚未授予的权利一律保留。
+你可以自由地使用、学习、修改和分发本软件，但任何再分发（含修改版）都必须以 GPL-3.0 开源，并保留版权与许可声明。
 
-允许
-- 阅读、学习与代码审计
-- 为个人研究、学习目的在本地编译并运行
-- 在你自己拥有、或已取得所有者书面明确授权的系统上进行安全评估
-
-禁止
-- 任何商业用途：销售、转售、出租、付费服务、SaaS，或用于企业内部的生产运营
-- 二次开发与再分发：fork、镜像、修改版发布，或以任何形式分发本软件的副本或衍生作品
-- 移除或篡改本软件及文档中的版权与许可声明
-- 在未取得授权的系统上使用本软件
-
-使用限制
-本软件仅供对使用者拥有所有权、或已取得目标系统所有者书面授权的系统进行安全评估与红队演练。严禁用于任何未经授权的系统。
-
-免责声明
-本软件按「现状」提供，不含任何明示或默示的担保。在任何情况下，作者不对因使用或无法使用本软件所引起的任何索赔、损害或其他责任负责。
-
-完整条款以仓库根目录 LICENSE.md 与 Licenses/EULA.md 为准；两者并行适用，冲突时以更严格者为准。
+完整条款见仓库根目录 LICENSE.md（GPL-3.0 全文）。
 
 ---
 本软件部分代码派生自开源项目 Quasar RAT（MIT License, Copyright (c) 2025 MaxXor），该部分代码依其原始 MIT 许可条款提供。</value>

@@ -3,7 +3,7 @@
 ![.NET](https://img.shields.io/badge/.NET-9.0-512BD4?logo=.net)
 ![C#](https://img.shields.io/badge/language-C%23-178600?logo=csharp)
 ![Windows](https://img.shields.io/badge/OS-Windows-0078D6?logo=windows)
-![License](https://img.shields.io/badge/license-Source--Available-Orange)
+![License](https://img.shields.io/badge/license-GPL--3.0-blue)
 
 > **一款适用于 Windows 的远程管理与安全评估工具（RAT）**
 
@@ -90,14 +90,12 @@ Orion 是一款采用 C# 编写的轻量级远程管理工具，可用于远程�
 
 ## 📜 开源许可证
 
-Orion 采用 **Orion Source-Available License v1.0**（见仓库根目录 `LICENSE.md`）：
+Orion 采用 **GNU 通用公共许可证第 3 版（GPL-3.0）**——一款免费、开源的自由软件许可（全文见仓库根目录 `LICENSE.md`）：
 
-- 允许：阅读、学习、审计，以及非商业目的的本地编译运行；
-- 禁止：任何商业使用；二次开发与再分发（含 fork、镜像、修改版发布）。
+- 允许：自由地使用、学习、修改与再分发本软件；
+- 要求：任何再分发（含修改版）都须以 GPL-3.0 开源，并保留版权与许可声明。
 
-二进制程序的最终用户授权另见 `Licenses/EULA.md`。
-
-第三方许可证可在 `Licenses` 目录查看。
+第三方组件的许可证可在 `Licenses` 目录查看。
 
 ---
 

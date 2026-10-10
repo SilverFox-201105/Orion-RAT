@@ -12,7 +12,6 @@ namespace Orion.Server.Forms
 {
     public partial class FrmAbout : Form
     {
-        // 官方社区入口（公开仓库仅发布源码，不提供预编译二进制）
         private readonly string _telegramUrl = @"https://t.me/+h7gwb2c5NaM0M2M5";
 
         // 与窗体客户区等尺寸的背景缓存（已按 BackgroundImageLayout 完整渲染），
@@ -22,7 +21,7 @@ namespace Orion.Server.Forms
         // 贡献者信息
         private const string ContributorsMessage = """
 - 现任开发者(就我一个)
-- [SilverFox](https://t.me/Silver_Fox_201105) - 产品运营与持续维护
+- [SilverFox](https://github.com/SilverFox-201105) - 产品运营与持续维护
 
 - 原项目开发者(Pulsar)
 - [KingKDot](https://github.com/KingKDot) - 主要开发者
@@ -375,12 +374,11 @@ namespace Orion.Server.Forms
         private void button1_Click(object sender, EventArgs e)
         {
             string disclaimer =
-                "本软件以「源代码可见」方式发布，仅供学习与研究目的。\n\n" +
-                "许可摘要（完整条款见 LICENSE.md）：\n" +
-                "· 允许阅读、学习、审计，并为个人非商业目的在本地编译运行\n" +
-                "· 禁止任何商业用途（销售、SaaS、付费服务、企业内部生产运营）\n" +
-                "· 禁止二次开发与再分发（fork、镜像、修改版发布）\n\n" +
-                "未经授权在非本人拥有或未明确允许的计算机上使用属于违法行为。\n\n" +
+                "本软件依据 GNU GPL-3.0 许可证发布，可自由使用、修改与再分发。\n\n" +
+                "许可要点（完整条款见 LICENSE.md）：\n" +
+                "· 可自由使用、学习、修改与再分发本软件\n" +
+                "· 再分发（含修改版）须以 GPL-3.0 开源并保留版权与许可声明\n\n" +
+                "使用限制：未经授权在非本人拥有或未明确允许的计算机上使用属于违法行为。\n\n" +
                 "使用本软件即表示你需对自己的行为承担全部责任。";
 
             MessageBox.Show(
@@ -397,7 +395,7 @@ namespace Orion.Server.Forms
             {
                 Process.Start(new ProcessStartInfo
                 {
-                    FileName = "https://github.com/BruceLi20110501/Orion_RAT",
+                    FileName = "https://github.com/SilverFox-201105/Orion-Tactical",
                     UseShellExecute = true
                 });
             }
