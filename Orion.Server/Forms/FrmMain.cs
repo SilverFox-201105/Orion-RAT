@@ -5552,7 +5552,9 @@ namespace Orion.Server.Forms
         {
             if (section?.DropDown is ToolStripDropDownMenu dropDownMenu)
             {
-                dropDownMenu.ShowImageMargin = false;
+                // 保留图片边距，使分组内带图标的插件命令项能够正常显示图标。
+                // 不带图标的项仍按文字渲染，仅左侧多出一列空白边距。
+                dropDownMenu.ShowImageMargin = true;
             }
         }
 
@@ -5574,6 +5576,8 @@ namespace Orion.Server.Forms
 
             // 直接用原图，交给容器 ImageScalingSize（按 DPI 绝对像素）统一约束，不替换 bitmap。
             item.Image = icon.ToBitmap();
+            // 命令项默认 DisplayStyle = Text 会抑制图标渲染；仅当确实带图标时切回图文同显。
+            item.DisplayStyle = ToolStripItemDisplayStyle.ImageAndText;
             float scale = DpiImageScaling.GetScaleFactor(_form);
             DpiImageScaling.ApplyToPluginMenuItem(item, scale);
         }
