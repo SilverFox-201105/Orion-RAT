@@ -51,19 +51,20 @@
             chkShowCountryGroups = new System.Windows.Forms.CheckBox();
             chkShowTagGroups = new System.Windows.Forms.CheckBox();
             grpFrp = new System.Windows.Forms.GroupBox();
-            chkFrpEnabled = new System.Windows.Forms.CheckBox();
-            lblFrpConfig = new System.Windows.Forms.Label();
-            txtFrpConfig = new System.Windows.Forms.TextBox();
-            lblFrpcBinary = new System.Windows.Forms.Label();
-            btnFrpInstall = new System.Windows.Forms.Button();
-            lblFrpFormat = new System.Windows.Forms.Label();
-            cboFrpFormat = new System.Windows.Forms.ComboBox();
-            lblFrpStatus = new System.Windows.Forms.Label();
-            btnFrpToggle = new System.Windows.Forms.Button();
-            lblFrpConsole = new System.Windows.Forms.Label();
             rtbFrpcConsole = new System.Windows.Forms.RichTextBox();
+            lblFrpConsole = new System.Windows.Forms.Label();
+            btnFrpToggle = new System.Windows.Forms.Button();
+            lblFrpStatus = new System.Windows.Forms.Label();
+            cboFrpFormat = new System.Windows.Forms.ComboBox();
+            lblFrpFormat = new System.Windows.Forms.Label();
+            btnFrpInstall = new System.Windows.Forms.Button();
+            lblFrpcBinary = new System.Windows.Forms.Label();
+            txtFrpConfig = new System.Windows.Forms.TextBox();
+            lblFrpConfig = new System.Windows.Forms.Label();
+            chkFrpEnabled = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)ncPort).BeginInit();
             groupBox1.SuspendLayout();
+            grpFrp.SuspendLayout();
             SuspendLayout();
             // 
             // btnSave
@@ -116,7 +117,7 @@
             // 
             chkPopup.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
             chkPopup.AutoSize = true;
-            chkPopup.Location = new System.Drawing.Point(11, 139);
+            chkPopup.Location = new System.Drawing.Point(11, 116);
             chkPopup.Name = "chkPopup";
             chkPopup.Size = new System.Drawing.Size(156, 17);
             chkPopup.TabIndex = 7;
@@ -160,7 +161,7 @@
             // 
             chkEventLog.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
             chkEventLog.AutoSize = true;
-            chkEventLog.Location = new System.Drawing.Point(11, 162);
+            chkEventLog.Location = new System.Drawing.Point(11, 139);
             chkEventLog.Name = "chkEventLog";
             chkEventLog.Size = new System.Drawing.Size(169, 17);
             chkEventLog.TabIndex = 21;
@@ -281,7 +282,7 @@
             chkShowCountryGroups.AutoSize = true;
             chkShowCountryGroups.Checked = true;
             chkShowCountryGroups.CheckState = System.Windows.Forms.CheckState.Checked;
-            chkShowCountryGroups.Location = new System.Drawing.Point(11, 185);
+            chkShowCountryGroups.Location = new System.Drawing.Point(11, 175);
             chkShowCountryGroups.Name = "chkShowCountryGroups";
             chkShowCountryGroups.Size = new System.Drawing.Size(143, 17);
             chkShowCountryGroups.TabIndex = 10;
@@ -293,7 +294,7 @@
             // 
             chkShowTagGroups.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
             chkShowTagGroups.AutoSize = true;
-            chkShowTagGroups.Location = new System.Drawing.Point(11, 208);
+            chkShowTagGroups.Location = new System.Drawing.Point(11, 198);
             chkShowTagGroups.Name = "chkShowTagGroups";
             chkShowTagGroups.Size = new System.Drawing.Size(143, 17);
             chkShowTagGroups.TabIndex = 11;
@@ -304,56 +305,46 @@
             // grpFrp
             // 
             grpFrp.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
+            grpFrp.Controls.Add(rtbFrpcConsole);
+            grpFrp.Controls.Add(lblFrpConsole);
+            grpFrp.Controls.Add(btnFrpToggle);
+            grpFrp.Controls.Add(lblFrpStatus);
+            grpFrp.Controls.Add(cboFrpFormat);
+            grpFrp.Controls.Add(lblFrpFormat);
+            grpFrp.Controls.Add(btnFrpInstall);
+            grpFrp.Controls.Add(lblFrpcBinary);
+            grpFrp.Controls.Add(txtFrpConfig);
+            grpFrp.Controls.Add(lblFrpConfig);
+            grpFrp.Controls.Add(chkFrpEnabled);
             grpFrp.Location = new System.Drawing.Point(340, 12);
             grpFrp.Name = "grpFrp";
             grpFrp.Size = new System.Drawing.Size(308, 560);
             grpFrp.TabIndex = 40;
             grpFrp.TabStop = false;
             grpFrp.Text = "C2 隧道 (FRP)";
-            grpFrp.SuspendLayout();
             // 
-            // chkFrpEnabled
+            // rtbFrpcConsole
             // 
-            chkFrpEnabled.AutoSize = true;
-            chkFrpEnabled.Location = new System.Drawing.Point(12, 22);
-            chkFrpEnabled.Name = "chkFrpEnabled";
-            chkFrpEnabled.Size = new System.Drawing.Size(174, 17);
-            chkFrpEnabled.TabIndex = 0;
-            chkFrpEnabled.Text = "启用远程FRP隧道";
-            chkFrpEnabled.UseVisualStyleBackColor = true;
-            chkFrpEnabled.CheckedChanged += chkFrpEnabled_CheckedChanged;
+            rtbFrpcConsole.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
+            rtbFrpcConsole.BackColor = System.Drawing.Color.Black;
+            rtbFrpcConsole.Font = new System.Drawing.Font("Consolas", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 0);
+            rtbFrpcConsole.ForeColor = System.Drawing.Color.LimeGreen;
+            rtbFrpcConsole.Location = new System.Drawing.Point(12, 460);
+            rtbFrpcConsole.Name = "rtbFrpcConsole";
+            rtbFrpcConsole.ReadOnly = true;
+            rtbFrpcConsole.Size = new System.Drawing.Size(284, 68);
+            rtbFrpcConsole.TabIndex = 14;
+            rtbFrpcConsole.Text = "";
+            rtbFrpcConsole.WordWrap = false;
             // 
-            // lblFrpConfig
+            // lblFrpConsole
             // 
-            lblFrpConfig.AutoSize = true;
-            lblFrpConfig.Location = new System.Drawing.Point(12, 126);
-            lblFrpConfig.Name = "lblFrpConfig";
-            lblFrpConfig.Size = new System.Drawing.Size(180, 13);
-            lblFrpConfig.TabIndex = 1;
-            lblFrpConfig.Text = "frpc 配置文件(粘贴服务商原文):";
-            // 
-            // txtFrpConfig
-            // 
-            txtFrpConfig.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
-            txtFrpConfig.Location = new System.Drawing.Point(12, 144);
-            txtFrpConfig.Multiline = true;
-            txtFrpConfig.Name = "txtFrpConfig";
-            txtFrpConfig.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            // 设计期高度仅供参考：本窗体 AutoScaleMode=Font，多行控件的高度在运行时会被
-            // 缩放两次（渲染高度可达设计值的 ~1.4 倍）。真实高度由 FrmSettings_Load 里的
-            // PinMultilineHeights() 在缩放完成后按实际可用空间钉死，避免越界覆盖下方按钮。
-            txtFrpConfig.Size = new System.Drawing.Size(284, 200);
-            txtFrpConfig.TabIndex = 2;
-            txtFrpConfig.TextChanged += txtFrpConfig_TextChanged;
-            // 
-            // lblFrpStatus
-            // 
-            lblFrpStatus.AutoSize = true;
-            lblFrpStatus.Location = new System.Drawing.Point(12, 386);
-            lblFrpStatus.Name = "lblFrpStatus";
-            lblFrpStatus.Size = new System.Drawing.Size(60, 13);
-            lblFrpStatus.TabIndex = 11;
-            lblFrpStatus.Text = "状态: 未连接";
+            lblFrpConsole.AutoSize = true;
+            lblFrpConsole.Location = new System.Drawing.Point(12, 442);
+            lblFrpConsole.Name = "lblFrpConsole";
+            lblFrpConsole.Size = new System.Drawing.Size(104, 13);
+            lblFrpConsole.TabIndex = 13;
+            lblFrpConsole.Text = "FRPC 控制台输出:";
             // 
             // btnFrpToggle
             // 
@@ -366,37 +357,34 @@
             btnFrpToggle.UseVisualStyleBackColor = true;
             btnFrpToggle.Click += btnFrpToggle_Click;
             // 
-            // lblFrpConsole
+            // lblFrpStatus
             // 
-            lblFrpConsole.AutoSize = true;
-            lblFrpConsole.Location = new System.Drawing.Point(12, 442);
-            lblFrpConsole.Name = "lblFrpConsole";
-            lblFrpConsole.Size = new System.Drawing.Size(120, 13);
-            lblFrpConsole.TabIndex = 13;
-            lblFrpConsole.Text = "FRPC 控制台输出:";
+            lblFrpStatus.AutoSize = true;
+            lblFrpStatus.Location = new System.Drawing.Point(12, 386);
+            lblFrpStatus.Name = "lblFrpStatus";
+            lblFrpStatus.Size = new System.Drawing.Size(78, 13);
+            lblFrpStatus.TabIndex = 11;
+            lblFrpStatus.Text = "状态: 未连接";
             // 
-            // rtbFrpcConsole
+            // cboFrpFormat
             // 
-            rtbFrpcConsole.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
-            rtbFrpcConsole.BackColor = System.Drawing.Color.Black;
-            rtbFrpcConsole.ForeColor = System.Drawing.Color.LimeGreen;
-            rtbFrpcConsole.Font = new System.Drawing.Font("Consolas", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 0);
-            rtbFrpcConsole.Location = new System.Drawing.Point(12, 460);
-            rtbFrpcConsole.Name = "rtbFrpcConsole";
-            rtbFrpcConsole.ReadOnly = true;
-            rtbFrpcConsole.Size = new System.Drawing.Size(284, 68);
-            rtbFrpcConsole.TabIndex = 14;
-            rtbFrpcConsole.Text = "";
-            rtbFrpcConsole.WordWrap = false;
+            cboFrpFormat.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            cboFrpFormat.FormattingEnabled = true;
+            cboFrpFormat.Items.AddRange(new object[] { "自动", "TOML", "INI" });
+            cboFrpFormat.Location = new System.Drawing.Point(78, 94);
+            cboFrpFormat.Name = "cboFrpFormat";
+            cboFrpFormat.Size = new System.Drawing.Size(90, 21);
+            cboFrpFormat.TabIndex = 44;
+            cboFrpFormat.SelectedIndexChanged += cboFrpFormat_SelectedIndexChanged;
             // 
-            // lblFrpcBinary
+            // lblFrpFormat
             // 
-            lblFrpcBinary.AutoSize = true;
-            lblFrpcBinary.Location = new System.Drawing.Point(12, 48);
-            lblFrpcBinary.Name = "lblFrpcBinary";
-            lblFrpcBinary.Size = new System.Drawing.Size(84, 13);
-            lblFrpcBinary.TabIndex = 41;
-            lblFrpcBinary.Text = "frpc 客户端: 未安装";
+            lblFrpFormat.AutoSize = true;
+            lblFrpFormat.Location = new System.Drawing.Point(12, 98);
+            lblFrpFormat.Name = "lblFrpFormat";
+            lblFrpFormat.Size = new System.Drawing.Size(62, 13);
+            lblFrpFormat.TabIndex = 43;
+            lblFrpFormat.Text = "配置格式:";
             // 
             // btnFrpInstall
             // 
@@ -408,41 +396,45 @@
             btnFrpInstall.UseVisualStyleBackColor = true;
             btnFrpInstall.Click += btnFrpInstall_Click;
             // 
-            // lblFrpFormat
+            // lblFrpcBinary
             // 
-            lblFrpFormat.AutoSize = true;
-            lblFrpFormat.Location = new System.Drawing.Point(12, 98);
-            lblFrpFormat.Name = "lblFrpFormat";
-            lblFrpFormat.Size = new System.Drawing.Size(54, 13);
-            lblFrpFormat.TabIndex = 43;
-            lblFrpFormat.Text = "配置格式:";
+            lblFrpcBinary.AutoSize = true;
+            lblFrpcBinary.Location = new System.Drawing.Point(12, 48);
+            lblFrpcBinary.Name = "lblFrpcBinary";
+            lblFrpcBinary.Size = new System.Drawing.Size(114, 13);
+            lblFrpcBinary.TabIndex = 41;
+            lblFrpcBinary.Text = "frpc 客户端: 未安装";
             // 
-            // cboFrpFormat
+            // txtFrpConfig
             // 
-            cboFrpFormat.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            cboFrpFormat.FormattingEnabled = true;
-            cboFrpFormat.Items.AddRange(new object[] {
-            "自动",
-            "TOML",
-            "INI"});
-            cboFrpFormat.Location = new System.Drawing.Point(78, 94);
-            cboFrpFormat.Name = "cboFrpFormat";
-            cboFrpFormat.Size = new System.Drawing.Size(90, 21);
-            cboFrpFormat.TabIndex = 44;
-            cboFrpFormat.SelectedIndexChanged += cboFrpFormat_SelectedIndexChanged;
-            grpFrp.Controls.Add(rtbFrpcConsole);
-            grpFrp.Controls.Add(lblFrpConsole);
-            grpFrp.Controls.Add(btnFrpToggle);
-            grpFrp.Controls.Add(lblFrpStatus);
-            grpFrp.Controls.Add(cboFrpFormat);
-            grpFrp.Controls.Add(lblFrpFormat);
-            grpFrp.Controls.Add(btnFrpInstall);
-            grpFrp.Controls.Add(lblFrpcBinary);
-            grpFrp.Controls.Add(txtFrpConfig);
-            grpFrp.Controls.Add(lblFrpConfig);
-            grpFrp.Controls.Add(chkFrpEnabled);
-            grpFrp.ResumeLayout(false);
-            grpFrp.PerformLayout();
+            txtFrpConfig.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
+            txtFrpConfig.Location = new System.Drawing.Point(12, 144);
+            txtFrpConfig.Multiline = true;
+            txtFrpConfig.Name = "txtFrpConfig";
+            txtFrpConfig.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            txtFrpConfig.Size = new System.Drawing.Size(284, 200);
+            txtFrpConfig.TabIndex = 2;
+            txtFrpConfig.TextChanged += txtFrpConfig_TextChanged;
+            // 
+            // lblFrpConfig
+            // 
+            lblFrpConfig.AutoSize = true;
+            lblFrpConfig.Location = new System.Drawing.Point(12, 126);
+            lblFrpConfig.Name = "lblFrpConfig";
+            lblFrpConfig.Size = new System.Drawing.Size(182, 13);
+            lblFrpConfig.TabIndex = 1;
+            lblFrpConfig.Text = "frpc 配置文件(粘贴服务商原文):";
+            // 
+            // chkFrpEnabled
+            // 
+            chkFrpEnabled.AutoSize = true;
+            chkFrpEnabled.Location = new System.Drawing.Point(12, 22);
+            chkFrpEnabled.Name = "chkFrpEnabled";
+            chkFrpEnabled.Size = new System.Drawing.Size(123, 17);
+            chkFrpEnabled.TabIndex = 0;
+            chkFrpEnabled.Text = "启用远程FRP隧道";
+            chkFrpEnabled.UseVisualStyleBackColor = true;
+            chkFrpEnabled.CheckedChanged += chkFrpEnabled_CheckedChanged;
             // 
             // FrmSettings
             // 
@@ -479,6 +471,8 @@
             Load += FrmSettings_Load;
             ((System.ComponentModel.ISupportInitialize)ncPort).EndInit();
             groupBox1.ResumeLayout(false);
+            grpFrp.ResumeLayout(false);
+            grpFrp.PerformLayout();
             ResumeLayout(false);
             PerformLayout();
 
