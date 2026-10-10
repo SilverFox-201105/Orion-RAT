@@ -551,31 +551,8 @@ namespace Orion.Server.Properties {
         }
         
         /// <summary>
-        ///   查找类似 专有商业授权（Proprietary Commercial License）
-        ///
-        ///Copyright (c) 2026 BruceLi20110501. 保留所有权利。
-        ///
-        ///本软件（Orion 控端程序）为闭源商业产品，按席位授权使用，不提供源代码。本授权仅覆盖控端程序本身，不包含任何插件。
-        ///
-        ///授权范围
-        ///- 仅限获得正式授权的指定使用者本人使用
-        ///- 授权期限、席位数量与升级权益以购买协议为准
-        ///
-        ///禁止事项
-        ///- 未经书面许可，不得复制、再分发、转售、出租或公开发布本软件的任何部分
-        ///- 不得对本软件进行反编译、反向工程、拆解，或制作派生的二次分发物
-        ///- 不得移除、篡改本软件中的任何版权与授权标识
-        ///
-        ///使用限制
-        ///本软件仅供对使用者拥有所有权、或已取得目标系统所有者书面授权的系统进行安全评估与红队演练。严禁用于任何未经授权的系统。
-        ///
-        ///免责声明
-        ///本软件按「现状」提供，不含任何明示或默示的担保。在任何情况下，作者不对因使用或无法使用本软件所引起的任何索赔、损害或其他责任负责。
-        ///
-        ///完整的授权条款以购买时签署的《最终用户许可协议》（EULA）为准。
-        ///
-        ///---
-        ///本软件部分代码派生自开源项目 Quasar RAT（MI [字符串的其余部分被截断]&quot;; 的本地化字符串。
+        ///   Orion is licensed under the GNU General Public License v3.0 (GPL-3.0) — free and open-source.
+        ///   The full text is available in LICENSE.md at the repository root.
         /// </summary>
         internal static string License {
             get {

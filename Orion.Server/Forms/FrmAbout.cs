@@ -395,7 +395,7 @@ namespace Orion.Server.Forms
             {
                 Process.Start(new ProcessStartInfo
                 {
-                    FileName = "https://github.com/SilverFox-201105/Orion-Tactical",
+                    FileName = "https://github.com/SilverFox-201105/Orion-RAT",
                     UseShellExecute = true
                 });
             }
