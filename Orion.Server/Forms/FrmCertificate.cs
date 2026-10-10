@@ -145,8 +145,8 @@ namespace Orion.Server.Forms
 
             if (result == DialogResult.No)
             {
-                // User did not agree – close the form
-                this.Close();
+                // 用户拒绝免责声明——直接终止程序，而不是关闭窗口后被调用方重新弹出
+                Environment.Exit(0);
             }
             // If Yes, the form stays open and continues loading
         }

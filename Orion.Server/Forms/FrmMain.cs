@@ -273,8 +273,11 @@ namespace Orion.Server.Forms
             {
                 using (var certificateSelection = new FrmCertificate())
                 {
-                    while (certificateSelection.ShowDialog() != DialogResult.OK)
-                    { }
+                    if (certificateSelection.ShowDialog() != DialogResult.OK)
+                    {
+                        // 用户拒绝免责声明或直接关闭证书窗口——终止程序，避免死循环重弹
+                        Environment.Exit(0);
+                    }
                 }
             }
             serverCertificate = new X509Certificate2(Settings.CertificatePath);
