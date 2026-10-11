@@ -11,6 +11,9 @@ Orion 是一款采用 C# 编写的轻量级远程管理工具，可用于远程�
 安全评估与红队演练。它包含服务端（控端）、客户端（被控端）与公共库三个项目，
 提供直观的操作界面与稳定的通信能力。
 
+> 📚 **完整使用教程请见 [Wiki](https://github.com/SilverFox-201105/Orion-RAT/wiki)**——
+> 包含首次运行、设置（含 FRP 隧道配置）、构建客户端的图文步骤。
+
 ## ⚙️ 系统要求
 
 - 构建服务端需要 **.NET 9.0 SDK** 以及 **Visual Studio 2022**（.NET 桌面开发工作负载）
@@ -20,6 +23,7 @@ Orion 是一款采用 C# 编写的轻量级远程管理工具，可用于远程�
 ## 📖 目录
 
 * 截图展示
+* 使用教程（Wiki）
 * 主要功能
 * 支持的平台
 * 快速开始
@@ -33,6 +37,29 @@ Orion 是一款采用 C# 编写的轻量级远程管理工具，可用于远程�
 | **主控制面板**                          | **远程桌面**                          | **文件管理器**                        |
 | ---------------------------------- | --------------------------------- | -------------------------------- |
 | ![主控制面板](Image/main-dashboard.jpg) | ![远程桌面](Image/remote-desktop.jpg) | ![文件管理器](Image/file-manager.png) |
+
+---
+
+## 📚 使用教程（Wiki）
+
+详细的操作步骤都写在项目的 [Wiki](https://github.com/SilverFox-201105/Orion-RAT/wiki) 中，建议按以下顺序阅读：
+
+**上手教程（图文步骤）**
+
+| 教程 | 内容 |
+| --- | --- |
+| [首次运行](https://github.com/SilverFox-201105/Orion-RAT/wiki/%E9%A6%96%E6%AC%A1%E8%BF%90%E8%A1%8C) | 免责声明、证书向导与主界面介绍 |
+| [设置](https://github.com/SilverFox-201105/Orion-RAT/wiki/%E8%AE%BE%E7%BD%AE) | 监听端口、Telegram 通知、内置 FRP 隧道（含 ChmlFrp 联动示例） |
+| [构建客户端](https://github.com/SilverFox-201105/Orion-RAT/wiki/%E6%9E%84%E5%BB%BA%E5%AE%A2%E6%88%B7%E7%AB%AF) | 基本 / 连接 / 安装 / 程序集四类设置与生成步骤 |
+
+**开发文档**
+
+| 文档 | 内容 |
+| --- | --- |
+| [从源码构建](https://github.com/SilverFox-201105/Orion-RAT/wiki/%E4%BB%8E%E6%BA%90%E7%A0%81%E6%9E%84%E5%BB%BA) | 编译服务端与客户端的前置条件和步骤 |
+| [功能](https://github.com/SilverFox-201105/Orion-RAT/wiki/%E5%8A%9F%E8%83%BD) | 功能总览与支持的平台 |
+| [插件开发](https://github.com/SilverFox-201105/Orion-RAT/wiki/%E6%8F%92%E4%BB%B6%E5%BC%80%E5%8F%91) | 服务端插件与客户端插件的编写、打包与排错 |
+| [常见问题](https://github.com/SilverFox-201105/Orion-RAT/wiki/%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98) | 常见疑问与排查 |
 
 ---
 
@@ -85,6 +112,8 @@ Orion 是一款采用 C# 编写的轻量级远程管理工具，可用于远程�
 
 > 注意：客户端 `Orion.Client.exe` 由控制端的构建器读取 `client.bin` 并写入连接配置后生成。
 > `client.bin` 需先由 `Orion.Client` 的 Release 产物生成并提供到控端目录。
+
+图文版步骤见 Wiki 的 [首次运行](https://github.com/SilverFox-201105/Orion-RAT/wiki/%E9%A6%96%E6%AC%A1%E8%BF%90%E8%A1%8C)、[设置](https://github.com/SilverFox-201105/Orion-RAT/wiki/%E8%AE%BE%E7%BD%AE) 与 [构建客户端](https://github.com/SilverFox-201105/Orion-RAT/wiki/%E6%9E%84%E5%BB%BA%E5%AE%A2%E6%88%B7%E7%AB%AF)。
 
 ---
 
